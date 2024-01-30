@@ -1,0 +1,49 @@
+
+#header {
+    background-color: black;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    & .title {
+        color: white;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        
+        & i {
+            font-size: 30px;
+            margin: 0 15px;
+        }
+
+        & p {
+            margin: 0 5px;
+            font-size: 25px;
+        }
+    }
+
+    & .icons {
+
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        & .icon {
+            font-size: 27px;
+            color: white;
+            margin: 0 7px;
+        }
+
+        & .user {
+            margin-right: 20px;
+        }
+
+        & input {
+            height: 100%;
+        }
+    }
+}

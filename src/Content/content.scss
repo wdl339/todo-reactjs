@@ -1,0 +1,202 @@
+#content {
+    margin-top: 50px;
+    background-color: #f6f8f9;
+    display: flex;
+    justify-content: flex-start;
+    min-height: 700px;
+    overflow: hidden;
+    position: relative;
+
+    & #form-todo {
+        margin-top: 25px;
+        transition: 0.5s;
+        margin-left: 60px;
+
+        & .title {
+            height: 40px;
+            display: flex;
+            align-items: center;
+
+            & i {
+                font-size: 35px;
+                color: black;
+                margin: 0 5px;
+            }
+
+            & p {
+                font-size: 22px;
+                font-weight: 600;
+                margin-top: 10px;
+            }
+        }
+
+        & .date {
+            display: flex;
+            justify-content: flex-start;
+            font-size: 15px;
+            margin-left: 10px;
+        }
+
+        & .add-task-area {
+            background-color: white;
+            height: 55px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 20px;
+            border-radius: 5px;
+            position: relative;
+
+            & .text-area {
+                border: 0;
+                font-size: 18px;
+                color: #888;
+            }
+
+            & .text-area:focus {
+                outline: 0;
+            }
+
+            & .btn-add {
+                margin: 0 3px;
+                border: 2px solid #E5E8E8;
+                color: #666;
+                background: 0;
+                padding: 5px 10px;
+                position: absolute;
+                right: 10px;
+            }
+
+        }
+
+        & .area {
+            margin-top: 25px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            // opacity: 0;
+            transition: 0.5s;
+
+            & .title {
+                font-size: 17px;
+            }
+
+            & .arrow {
+                font-size: 25px;
+            }
+
+            & .number-complete {
+                margin-left: 15px;
+                font-size: 16px;
+            }
+
+            & .task {
+                background-color: white;
+                height: 55px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                margin-bottom: 7px;
+                border-radius: 5px;
+                position: relative;
+
+                & .task-name {
+                    margin-top: 15px;
+                    font-size: 17px;
+                    text-align: flex-start;
+                    color: #888;
+                }
+    
+                & .star {
+                    font-size: 25px;
+                    color: #aaaaaa;
+                    position: absolute;
+                    right: 10px;
+                }   
+            }
+        }
+    }
+
+    & .form-detail-task {
+        height: 695px;
+        background-color: white;
+        position: absolute;
+        right: -700px;
+        position: fixed;
+        top: 50px;
+        transition: 0.5s;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+
+        & .btns-area {
+            display: flex;
+
+            & button {
+                margin: 0 5px;
+            }
+        }
+
+        & .description {
+            height: 450px;
+            border-radius: 5px;
+            border: 1px solid #c7c4c4;
+            line-height: 40px;
+            font-size: 17px;
+            padding: 10px;
+        }
+        & .description:focus {
+            outline: 1px;
+        }
+
+        & .exit {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 30px;
+            color: #c7c4c4;
+        }
+
+        & .title {
+            margin-top: 60px;
+            display: flex;
+            justify-content: flex-start;
+            height: 60px;
+            align-items: center;
+            position: relative;
+
+            & .task-name-detail {
+                font-size: 21px;
+                color: #888;
+                margin-top: 12px;
+                border: 0;
+            }
+            & .task-name-detail:focus {
+                outline: 0;
+            }
+
+            & .star {
+                position: absolute;
+                font-size: 26px;
+                color: #c7c4c4;
+                right: -10px;
+            }
+
+            & .check {
+                height: 22px;
+                width: 22px;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+        }
+    }
+}
+
+.check {
+    height: 18px;
+    width: 18px;
+    margin-left: 20px;
+    margin-right: 10px;
+}
