@@ -8,8 +8,7 @@ function Header() {
                 <p>To Do</p>
             </div>
             <div className='col-lg-3 icons'>
-                <input class="form-control me-3" type="search" placeholder="Search" aria-label="Search"/>
-                <div className='setting icon'>
+                <div className='icon'>
                     <i className="fa-sharp fa-solid fa-gear"></i>
                 </div>
                 <div className='user icon'>

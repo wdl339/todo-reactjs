@@ -2,6 +2,7 @@
 #header {
     background-color: black;
     height: 50px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -42,8 +43,5 @@
             margin-right: 20px;
         }
 
-        & input {
-            height: 100%;
-        }
     }
 }
