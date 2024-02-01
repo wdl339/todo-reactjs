@@ -28,6 +28,17 @@ function Content() {
         }
     })
 
+    const changeTimetoStr = (time) =>{
+        var ddlUtc = new Date(time);
+        var year = ddlUtc.getUTCFullYear();
+        var month = (ddlUtc.getUTCMonth() + 1).toString().padStart(2, '0');
+        var date = ddlUtc.getUTCDate().toString().padStart(2, '0');
+        var hour = ddlUtc.getUTCHours().toString().padStart(2, '0');
+        var minute = ddlUtc.getUTCMinutes().toString().padStart(2, '0');
+        var ddlValue = year + '-' + month + '-' + date + 'T' + hour + ':' + minute;
+        return ddlValue
+    }
+
     const clickOpen = (task) =>{
         const formDetail = document.querySelector('.form-detail-task')
         if (isOpen === false){
@@ -35,6 +46,7 @@ function Content() {
             setJob(task)
             document.querySelector('.description').value = task.description
             document.querySelector('.task-name-detail').value = task.name
+            document.querySelector('.ddl').value = changeTimetoStr(task.deadLine);
             setIsOpen(true)
         } else{
             formDetail.style.right = '-2000px'
@@ -43,6 +55,30 @@ function Content() {
         }
         
     }
+
+    const ProgressBar = ({ deadline, dateTime }) => {
+        if (deadline){
+            const deadlineDate = new Date(deadline);
+            const dateTimeDate = new Date(dateTime);
+            const currentDate = new Date();
+            const timeDiff = deadlineDate - currentDate;
+            const totalDiff = deadlineDate - dateTimeDate;
+            const progress = Math.floor((timeDiff / totalDiff) * 100);
+        
+            if (progress > 0 && progress <= 100) {
+            return (
+                <div className="progress col-12">
+                    <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">{changeTimetoStr(deadlineDate)}</div>
+                </div>
+            );
+            } else {
+            return null;
+            }
+        } else {
+            return null;
+            }
+        
+      };
 
     return(
             <div id="content" class='row col-12'>
@@ -56,20 +92,24 @@ function Content() {
                         <div className="date col-12"></div>
 
                         <form method='POST' action='https://todo-nodejs-nu.vercel.app/insert-task' className='add-task-area col-12'>
-                                {/* isComplete */}
-                                <input type='hidden' name='isComplete' value={false} />
-                                <input type='checkbox' class="check" />
 
-                                {/* name */}
-                                <input type='text' name='name' class='text-area col-11' placeholder='Add a task' />
-                                
-                                {/* description */}
-                                <input type='hidden' name='description' value='' />
+                            <button type='submit' class='btn btn-add' >添加</button>
 
-                                {/* isImportant */}
-                                <input type='hidden' name='isImportant' value={false} />
-                                
-                                <button type='submit' className='btn-add' >Add</button>
+                            {/* name */}
+                            <div className='info col-lg-11'>
+                                <input type='text' name='name' class='text-area' placeholder='新任务...' />
+                                <input type="datetime-local" class='ddl-area' name='deadLine'></input>
+                            </div>
+
+                            {/* isComplete */}
+                            <input type='hidden' name='isComplete' value={false} />
+                                            
+                            {/* description */}
+                            <input type='hidden' name='description' value='' />
+
+                            {/* isImportant */}
+                            <input type='hidden' name='isImportant' value={false} />
+
                         </form>
 
                         {/* no-complete-task-area */}
@@ -96,7 +136,11 @@ function Content() {
                                                             onChange={() => {document.getElementById('complete'+index).submit()}}/>
                                                     </form>
                                                     
-                                                <input type='text' className='task-name col-11' value={task.name} />
+                                                <div className='info'>
+                                                    <input type='text' className='task-name col-11' value={task.name} />
+                                                    <ProgressBar deadline={task.deadLine} dateTime={task.dateTime} />
+                                                </div>
+                                                
 
                                                 {/*important */}
                                                 
@@ -105,8 +149,7 @@ function Content() {
                                                             : <i class="fa-solid fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i>}
                                                         <input type='hidden' value={task._id} name='_id'/>
                                                         <input type='hidden' value={!task.isImportant} name='isImportant'/>
-                                                    </form>
-                                                    
+                                                </form>
                                                 </div>
                                     } else{
                                         return <div></div>
@@ -140,7 +183,9 @@ function Content() {
                                                             onChange={() => {document.getElementById('complete'+index).submit()}}/>
                                                     </form>
 
-                                                <input type='text' className='task-name col-11' value={task.name} />
+                                                <div className='info'>
+                                                    <input type='text' className='task-name col-11' value={task.name} />
+                                                </div>
                                                 
                                                 {/*important */}
                                                 <form id={'important'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-important'>
@@ -169,6 +214,12 @@ function Content() {
                     
                     {/* name */}
                     <textarea className='task-name-detail col-10' name='name' />
+
+                    {/* deadLine */}
+                    <div className="ddl-area col-10">
+                        <i class="fa-solid fa-clock clock"></i> 
+                        <input type="datetime" className='ddl' name='deadLine'></input>
+                    </div>
 
                     {/* description */}
                     <textarea className='description col-10' name='description' />
