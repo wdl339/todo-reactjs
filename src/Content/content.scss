@@ -1,18 +1,20 @@
 
 
 #content {
-    margin-top: 50px;
-    background-color: #f6f8f9;
+    background-color:#f6f8f9;
     display: flex;
     justify-content: flex-start;
-    min-height: 100%;
-    overflow: hidden;
+    align-items: center;
     position: relative;
+    overflow: hidden;
+    right: -12px;
 
     & #form-todo {
         margin-top: 25px;
         transition: 0.5s;
-        margin-left: 60px;
+        margin-left: 25px;
+        margin-right: 25px;
+        flex:1;
 
         & .title {
             height: 40px;
@@ -20,13 +22,13 @@
             align-items: center;
 
             & i {
-                font-size: 35px;
+                font-size: 30px;
                 color: black;
                 margin: 0 5px;
             }
 
             & p {
-                font-size: 22px;
+                font-size: 20px;
                 font-weight: 600;
                 margin-top: 10px;
             }
@@ -35,13 +37,13 @@
         & .date {
             display: flex;
             justify-content: flex-start;
-            font-size: 15px;
+            font-size: 14px;
             margin-left: 10px;
         }
 
         & .add-task-area {
             background-color: white;
-            height: 55px;
+            height: 45px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
@@ -51,7 +53,7 @@
 
             & .text-area {
                 border: 0;
-                font-size: 18px;
+                font-size: 14px;
                 color: #888;
             }
 
@@ -79,16 +81,15 @@
         }
 
         & .area {
-            margin-top: 25px;
+            margin-top: 20px;
             border-radius: 5px;
             display: flex;
             flex-direction: column;
-            // align-items: center;
             transition: 0.5s;
             position: relative;
 
             & .title {
-                font-size: 17px;
+                font-size: 14px;
             }
 
             & .arrow {
@@ -97,12 +98,12 @@
 
             & .number-complete {
                 margin-left: 15px;
-                font-size: 16px;
+                font-size: 14px;
             }
 
             & .task {
                 background-color: white;
-                height: 55px;
+                height: 45px;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
@@ -111,10 +112,13 @@
                 position: relative;
 
                 & .task-name {
-                    margin-top: 15px;
-                    font-size: 17px;
+                    border: 0;
+                    font-size: 14px;
                     text-align: start;
                     color: #888;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 80%;
                 }
 
                 .star {
@@ -139,19 +143,21 @@
 
     & .form-detail-task {
         background-color: white;
-        right: -700px;
+        right: -2000px;
         position: absolute;
         transition: 0.5s;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         flex-direction: column;
+        height: 100%;
+        top:5px;
 
         & .btns-area {
             justify-content: center;
-            margin-top: 20px;
-            margin-bottom: 100px;
+            align-items: center;
             display: flex;
+            height:20%;
 
             & button {
                 margin: 0 10px;
@@ -160,15 +166,29 @@
 
         & .description {
             margin-top: 10px;
-            height: 600px;
+            height: 55%;
             width:80%;
             border-radius: 5px;
             border: 1px solid #c7c4c4;
             line-height: 20px;
-            font-size: 15px;
+            font-size: 14px;
             padding: 10px;
         }
         & .description:focus {
+            outline: 1px;
+        }
+
+        & .task-name-detail {
+            margin-top: 10px;
+            height:10%;
+            width:80%;
+            border-radius: 5px;
+            border: 1px solid #c7c4c4;
+            line-height: 20px;
+            font-size: 14px;
+            padding: 10px;
+        }
+        & .task-name-detail:focus {
             outline: 1px;
         }
 
@@ -176,36 +196,13 @@
             margin-top: 10px;
             display: flex;
             justify-content: center;
-            height: 60px;
+            height: 5%;
             align-items: center;
             position: relative;
 
-            & .task-name-detail {
-                position:relative;
-                font-size: 21px;
-                color: #888;
-                border: 0;
-            }
-            & .task-name-detail:focus {
-                outline: 0;
-            }
-
-            & .star {
-                position:relative;
-                font-size: 26px;
-                color: #c7c4c4;
-            }
-
-            & .check {
-                position:relative;
-                height: 25px;
-                width: 25px;
-                top:5px;
-            }
-
             & .exit {
                 position:relative;
-                font-size: 30px;
+                font-size: 25px;
                 color: #c7c4c4;
             }
         }

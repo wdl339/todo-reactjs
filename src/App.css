@@ -38,5 +38,6 @@
 }
 
 .content-wrapper {
-  height: 1000px;
+    height: 'calc(100vh - 60px)';
+    padding: 0%;
 }
