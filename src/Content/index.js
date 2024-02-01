@@ -160,10 +160,6 @@ function Content() {
                 </div>
 
                 <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-9'>
-                    
-                    <div className='col-1 title'>
-                        <i onClick={() => clickOpen(job)} className="fa-solid fa-xmark exit"></i>
-                    </div>
 
                     {/* isImportant */}
                     <input type='hidden' name='isImportant' value={job.isImportant} />
@@ -182,12 +178,14 @@ function Content() {
 
                     <div className='btns-area col-10'>
                         <input type='hidden' value={job._id} name='_id'/>
-                        <button type="submit" class="btn btn-primary" value={job._id}>更新</button>
+                        <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
 
                         <form method='POST' action='https://todo-nodejs-nu.vercel.app/delete-task'>
                             <input type='hidden' value={job._id} name='_id'/>
                             <button type="submit" class="btn btn-danger" value={job._id}>删除</button>
                         </form>
+
+                        <button type="button" class="btn btn-secondary" onClick={() => clickOpen(job)}>返回</button>
                         
                     </div>
                 </form>
