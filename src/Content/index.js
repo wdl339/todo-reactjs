@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './content.scss';
+const moment = require('moment');
 
 function Content() {
 
@@ -30,7 +31,7 @@ function Content() {
 
     const changeTimetoStr = (time) =>{
         var ddlUtc = new Date(time);
-        var year = ddlUtc.getUTCFullYear();
+        var year = ddlUtc.getFullYear();
         var month = (ddlUtc.getUTCMonth() + 1).toString().padStart(2, '0');
         var date = ddlUtc.getUTCDate().toString().padStart(2, '0');
         var hour = ddlUtc.getUTCHours().toString().padStart(2, '0');
@@ -58,17 +59,23 @@ function Content() {
 
     const ProgressBar = ({ deadline, dateTime }) => {
         if (deadline){
-            const deadlineDate = new Date(deadline);
-            const dateTimeDate = new Date(dateTime);
-            const currentDate = new Date();
+            const deadlineDate = moment(deadline).subtract(8, 'hours');
+            const dateTimeDate = moment(dateTime).subtract(8, 'hours');
+            const currentDate = moment();
             const timeDiff = deadlineDate - currentDate;
             const totalDiff = deadlineDate - dateTimeDate;
             const progress = Math.floor((timeDiff / totalDiff) * 100);
+            console.log(deadlineDate)
+            console.log(dateTimeDate)
+            console.log(currentDate)
+            console.log(progress)
         
             if (progress > 0 && progress <= 100) {
             return (
                 <div className="progress col-12">
-                    <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">{changeTimetoStr(deadlineDate)}</div>
+                    <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">
+                        {changeTimetoStr(moment(deadline))}
+                    </div>
                 </div>
             );
             } else {
