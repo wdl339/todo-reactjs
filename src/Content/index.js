@@ -70,7 +70,7 @@ function Content() {
             console.log(currentDate)
             console.log(progress)
         
-            if (progress > 0 && progress <= 100) {
+            if (progress > 50 && progress <= 100) {
             return (
                 <div className="progress col-12">
                     <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">
@@ -78,8 +78,16 @@ function Content() {
                     </div>
                 </div>
             );
+            } else if(progress > 0 && progress <= 50){
+                return (
+                    <div className="progress col-12">
+                        <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                        <p>{changeTimetoStr(moment(deadline))}</p>
+                    </div>
+                );
             } else {
-            return null;
+                return null;
             }
         } else {
             return null;

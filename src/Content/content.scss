@@ -83,7 +83,7 @@
                 border: 2px solid #E5E8E8;
                 color: #666;
                 background: 0;
-                padding: 5px 10px;
+                padding: 15px 10px;
                 position: absolute;
                 right: 10px;
             }
@@ -147,6 +147,15 @@
                         margin-top: 5px;
                         height: 14px;
                     }
+
+                    & p {
+                        display: flex;
+                        justify-content: flex-start;
+                        font-size: 12px;
+                        margin-left: 10px;
+                        margin-bottom: 0;
+                        align-items: center;
+                    }
                 }
 
                 .star {
@@ -155,14 +164,14 @@
                     position: absolute;
                     right: 10px;
                     top: 50%;
-                    transform: translateY(-50%);
+                    transform: translateY(-60%);
                     
                 }   
 
                 .check {
-                    height: 18px;
-                    width: 18px;
-                    margin-left: 10px;
+                    height: 22px;
+                    width: 22px;
+                    margin-left: 8px;
                     margin-right: 15px;
                 }
 
