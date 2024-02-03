@@ -21,6 +21,7 @@
             height: 40px;
             display: flex;
             align-items: center;
+            justify-content: center;
 
             & i {
                 font-size: 30px;
@@ -33,14 +34,25 @@
                 font-weight: 600;
                 margin-top: 10px;
             }
+
+            & .date {
+                display: flex;
+                justify-content: flex-start;
+                font-size: 14px;
+                margin-left: 10px;
+            }
         }
 
-        & .date {
-            display: flex;
-            justify-content: flex-start;
+        & .btn-canvas {
+            margin-top: 10px;
+            border: 2px solid #E5E8E8;
+            color: #666;
+            background: 0;
+            padding: 5px 5px;
             font-size: 14px;
-            margin-left: 10px;
+            
         }
+
 
         & .add-task-area {
             background-color: white;
@@ -84,6 +96,7 @@
                 color: #666;
                 background: 0;
                 padding: 15px 10px;
+                font-size: 15px;
                 position: absolute;
                 right: 10px;
             }

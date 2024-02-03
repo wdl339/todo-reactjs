@@ -57,6 +57,26 @@ function Content() {
         
     }
 
+    const getCanvas = () => {
+        fetch('https://todo-nodejs-nu.vercel.app/api/eventlist')
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(task => {
+                const isUnique = tasks.every(existingTask => existingTask.name !== task.name);
+                if (isUnique){
+                    fetch('https://todo-nodejs-nu.vercel.app/insert-task', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(task)
+                })
+                }
+            });
+        })
+        
+    }
+
     const ProgressBar = ({ deadline, dateTime }) => {
         if (deadline){
             const deadlineDate = moment(deadline).subtract(8, 'hours');
@@ -65,10 +85,6 @@ function Content() {
             const timeDiff = deadlineDate - currentDate;
             const totalDiff = deadlineDate - dateTimeDate;
             const progress = Math.floor((timeDiff / totalDiff) * 100);
-            console.log(deadlineDate)
-            console.log(dateTimeDate)
-            console.log(currentDate)
-            console.log(progress)
         
             if (progress > 50 && progress <= 100) {
             return (
@@ -102,9 +118,10 @@ function Content() {
                         <div className='title col-12'>
                             <i className='bx bx-sun sun'></i>
                             <p>所有任务 ({tasks.length})</p>
+                            <div className="date"></div>
                         </div>
                         
-                        <div className="date col-12"></div>
+                        <button className="btn-canvas" onClick={() => {getCanvas()}}>同步canvas任务</button>
 
                         <form method='POST' action='https://todo-nodejs-nu.vercel.app/insert-task' className='add-task-area col-12'>
 
