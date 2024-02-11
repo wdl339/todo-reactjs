@@ -34,12 +34,11 @@
                 margin-top: 10px;
             }
 
-
         }
 
-        & .btn-canvas {
-            margin-top: 10px;
+        & .btn-jwc {
             border-radius: 5px;
+            margin-top: 10px;
             border: 2px solid black;
             color: black;
             background: 0;
@@ -49,7 +48,7 @@
         }
 
 
-        & .add-task-area {
+        & .add-note-area {
             background-color: white;
             border: 2px solid black;
             height: 90px;
@@ -117,12 +116,12 @@
                 font-size: 25px;
             }
 
-            & .number-complete {
+            & .number-important {
                 margin-left: 15px;
                 font-size: 14px;
             }
 
-            & .task {
+            & .note {
                 background-color: white;
                 border: 2px solid black;
                 height: 60px;
@@ -139,7 +138,7 @@
                     flex-direction: column;
                     position: relative;
     
-                    & .task-name {
+                    & .note-title {
                         border: 0;
                         font-size: 14px;
                         text-align: start;
@@ -149,23 +148,10 @@
                         max-width: 100%;
                     }
 
-                    & .task-name:focus {
+                    & .note-title:focus {
                         outline: none;
                       }
 
-                    & .progress {
-                        margin-top: 5px;
-                        height: 14px;
-                    }
-
-                    & p {
-                        display: flex;
-                        justify-content: flex-start;
-                        font-size: 12px;
-                        margin-left: 10px;
-                        margin-bottom: 0;
-                        align-items: center;
-                    }
                 }
 
                 .star {
@@ -188,7 +174,7 @@
             }
         }
 
-    & .form-detail-task {
+    & .form-detail-note {
         background-color: white;
         right: -2000px;
         position: absolute;
@@ -211,7 +197,7 @@
             }
         }
 
-        & .description {
+        & .detail {
             margin-top: 10px;
             height: 55%;
             width:80%;
@@ -221,11 +207,11 @@
             font-size: 14px;
             padding: 10px;
         }
-        & .description:focus {
+        & .detail:focus {
             outline: 1px;
         }
 
-        & .task-name-detail {
+        & .note-title-detail {
             margin-top: 10px;
             height:10%;
             width:80%;
@@ -235,7 +221,7 @@
             font-size: 14px;
             padding: 10px;
         }
-        & .task-name-detail:focus {
+        & .note-title-detail:focus {
             outline: 1px;
         }
 

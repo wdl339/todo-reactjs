@@ -14,13 +14,6 @@ function Content() {
         fetch('https://todo-nodejs-nu.vercel.app/api/tasks')
             .then(res => res.json())
             .then(data => setTasks(data))
-
-        var today = new Date();
-        var year = today.getFullYear();
-        var month = today.getMonth() + 1; 
-        var day = today.getDate();
-        var dateElement = document.querySelector(".date");
-        dateElement.textContent = year + "-" + month + "-" + day;
         
     },[])
     tasks.forEach(task => {
@@ -47,7 +40,11 @@ function Content() {
             setJob(task)
             document.querySelector('.description').value = task.description
             document.querySelector('.task-name-detail').value = task.name
-            document.querySelector('.ddl').value = changeTimetoStr(task.deadLine);
+            if (task.deadLine) {
+                document.querySelector('.ddl').value = changeTimetoStr(task.deadLine);
+            } else {
+                document.querySelector('.ddl').value = null;
+            }
             setIsOpen(true)
         } else{
             formDetail.style.right = '-2000px'
@@ -111,14 +108,23 @@ function Content() {
         
       };
 
+    //   const Task = new Schema ({
+    //     name : {type : String},
+    //     description : {type : String},
+    //     isComplete : {type : Boolean},
+    //     isImportant : {type : Boolean},
+    //     dateTime : {type : Date},
+    //     deadLine : {type : Date},
+    //     // user_id : {type : Object}
+    // })
+
     return(
-            <div id="content" class='row col-12'>
+            <div id="content" class='row'>
                 <div id="form-todo" class='col-11'>
                     <div class="row">
                         <div className='title col-12'>
                             <i className='bx bx-sun sun'></i>
                             <p>所有任务 ({tasks.length})</p>
-                            <div className="date"></div>
                         </div>
                         
                         <button className="btn-canvas" onClick={() => {getCanvas()}}>同步canvas任务</button>
@@ -155,11 +161,7 @@ function Content() {
 
                                 {tasks.map((task,index) => {
                                     if (task.isComplete === false) {
-                                        return <div key={index} onClick={(e) => {
-                                            if(e.target.className !== 'check' && e.target.className !== 'star'){
-                                                clickOpen(task)
-                                            }
-                                        }} className={'task col-12 task' + index}>
+                                        return <div key={index} className={'task col-12 task' + index}>
                                                 {/* complete */}
                                                     <form id={'complete'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-complete'>
                                                         <input type='hidden' value={task._id} name='_id'/>
@@ -168,7 +170,7 @@ function Content() {
                                                             onChange={() => {document.getElementById('complete'+index).submit()}}/>
                                                     </form>
                                                     
-                                                <div className='info'>
+                                                <div className='info' onClick={() => {clickOpen(task)}}>
                                                     <input type='text' className='task-name col-11' value={task.name} />
                                                     <ProgressBar deadline={task.deadLine} dateTime={task.dateTime} />
                                                 </div>
@@ -201,11 +203,7 @@ function Content() {
 
                                 {tasks.map((task,index) => {
                                     if (task.isComplete === true) {
-                                        return <div key={index} onClick={(e) => {
-                                            if(e.target.className !== 'check' && e.target.className !== 'star'){
-                                                clickOpen(task)
-                                            }
-                                        }} className={'task col-12 task' + index}>
+                                        return <div key={index} className={'task col-12 task' + index}>
 
                                                 {/* complete */}
                                                 <form id={'complete'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-complete'>
@@ -215,7 +213,7 @@ function Content() {
                                                             onChange={() => {document.getElementById('complete'+index).submit()}}/>
                                                     </form>
 
-                                                <div className='info'>
+                                                <div className='info' onClick={() => {clickOpen(task)}}>
                                                     <input type='text' className='task-name col-11' value={task.name} />
                                                 </div>
                                                 
@@ -236,7 +234,7 @@ function Content() {
                     </div>
                 </div>
 
-                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-9'>
+                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-12'>
 
                     {/* isImportant */}
                     <input type='hidden' name='isImportant' value={job.isImportant} />

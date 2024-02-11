@@ -41,3 +41,15 @@
     height: 'calc(100vh - 60px)';
     padding: 0%;
 }
+
+.navbar{
+    padding: 0;
+}
+
+.header{
+  background-color: black;
+}
+
+.header-title{
+  color: white;
+}
