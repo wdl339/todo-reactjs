@@ -125,7 +125,7 @@ function Note() {
                                         return <div key={index}  className={'note col-12 note' + index}>
                                                     
                                                 <div className='info' onClick={() => {clickOpen(note)}}>
-                                                    <input type='text' className='note-title col-11' value={note.title} />
+                                                    <input type='text' className='note-title col-11' value={note.title} readOnly/>
                                                 </div>
 
                                                 {/*important */}
@@ -158,7 +158,7 @@ function Note() {
                                         return <div key={index} className={'note col-12 note' + index}>
 
                                                 <div className='info' onClick={() => {clickOpen(note)}}>
-                                                    <input type='text' className='note-title col-11' value={note.title} />
+                                                    <input type='text' className='note-title col-11' value={note.title} readOnly/>
                                                 </div>
                                                 
                                                 {/*important */}

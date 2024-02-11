@@ -171,7 +171,7 @@ function Content() {
                                                     </form>
                                                     
                                                 <div className='info' onClick={() => {clickOpen(task)}}>
-                                                    <input type='text' className='task-name col-11' value={task.name} />
+                                                    <input type='text' className='task-name col-11' value={task.name} readOnly/>
                                                     <ProgressBar deadline={task.deadLine} dateTime={task.dateTime} />
                                                 </div>
                                                 
@@ -214,7 +214,7 @@ function Content() {
                                                     </form>
 
                                                 <div className='info' onClick={() => {clickOpen(task)}}>
-                                                    <input type='text' className='task-name col-11' value={task.name} />
+                                                    <input type='text' className='task-name col-11' value={task.name} readOnly/>
                                                 </div>
                                                 
                                                 {/*important */}
