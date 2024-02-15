@@ -40,7 +40,7 @@ function Login({setIsLoggedIn}) {
     return ( 
         <div className='col-12 login'>
             <h3>登录</h3><br></br>
-            <form method='POST' action='https://todo-nodejs-nu.vercel.app/insert-user' className='col-4' onKeyPress={handleKeyPress}>
+            <form method='POST' action='https://todo-nodejs-nu.vercel.app/insert-user' className='col-6' onKeyPress={handleKeyPress}>
                 <div class="form-outline mb-4">
                     <label class="form-label username" for="form2Example1">用户</label>
                     <input name='userName' type="text" id="form2Example1" class="form-control txtusername" />
