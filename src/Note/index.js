@@ -7,6 +7,7 @@ function Note({user_id}) {
     const [isOpen, setIsOpen] = useState(false)
     const [notes, setNotes] = useState([])
     const [job, setJob] = useState({})
+    const [date, setDate] = useState('')
     let numberOfImportant = 0
 
     useEffect (() => {
@@ -14,9 +15,23 @@ function Note({user_id}) {
         const url = `https://todo-nodejs-nu.vercel.app/api/notes?user_id=${user_id}`
         fetch(url)
             .then(res => res.json())
-            .then(data => setNotes(data))
+            .then(data => {
+                data.sort((a, b) => {
+                    return new Date(b.dateTime) - new Date(a.dateTime);
+                  });
+                setNotes(data);
+            })
         
     },[user_id])
+    useEffect (() => {
+
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1; 
+        var day = today.getDate();
+        setDate(year + "-" + month + "-" + day)
+        
+      },[])
     notes.forEach(note => {
         if (note.isImportant === true) {
             numberOfImportant++
@@ -80,10 +95,10 @@ function Note({user_id}) {
     //     link : {type : String},
     //     isImportant : {type : Boolean},
     //     dateTime : {type : Date},
-        // user_id : {type : Object}
+    //     user_id : {type : Object}
     // })
     
-    return( (user_id.user_id !== "")?
+    return( (user_id !== "")?
             <div id="content" class='row'>
                 <div id="form-todo" class='col-11'>
                     <div class="row">
@@ -101,8 +116,10 @@ function Note({user_id}) {
                             {/* title */}
                             <div className='info col-lg-11'>
                                 <input type='text' name='title' class='text-area' placeholder='新记录...' />
-                                <input type="date" class='ddl-area' name='dateTime'></input>
                             </div>
+
+                            {/* dateTime */}
+                            <input type="hidden" name='dateTime' value={date}/>
                                             
                             {/* detail */}
                             <input type='hidden' name='detail' value='' />
