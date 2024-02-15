@@ -15,7 +15,12 @@ function Content({user_id}) {
         console.log(url)
         fetch(url)
             .then(res => res.json())
-            .then(data => setTasks(data))
+            .then(data => {
+                data.sort((a, b) => {
+                    return new Date(a.deadLine) - new Date(b.deadLine);
+                  });
+                setTasks(data);
+            })
         
     },[user_id])
 
