@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './content.scss';
 const moment = require('moment');
 
-function Content() {
+function Content({user_id}) {
 
     const [isOpen, setIsOpen] = useState(false)
     const [tasks, setTasks] = useState([])
@@ -11,11 +11,14 @@ function Content() {
 
     useEffect (() => {
 
-        fetch('https://todo-nodejs-nu.vercel.app/api/tasks')
+        const url = `https://todo-nodejs-nu.vercel.app/api/tasks?user_id=${user_id}`
+        console.log(url)
+        fetch(url)
             .then(res => res.json())
             .then(data => setTasks(data))
         
-    },[])
+    },[user_id])
+
     tasks.forEach(task => {
         if (task.isComplete === true) {
             numberOfComplete++
@@ -61,6 +64,7 @@ function Content() {
             data.forEach(task => {
                 const isUnique = tasks.every(existingTask => existingTask.name !== task.name);
                 if (isUnique){
+                    task.user_id = user_id;
                     fetch('https://todo-nodejs-nu.vercel.app/insert-task', {
                     method: 'POST',
                     headers: {
@@ -115,10 +119,11 @@ function Content() {
     //     isImportant : {type : Boolean},
     //     dateTime : {type : Date},
     //     deadLine : {type : Date},
-    //     // user_id : {type : Object}
+        // user_id : {type : Object}
     // })
-
-    return(
+    
+    return( 
+        (user_id !== "")?
             <div id="content" class='row'>
                 <div id="form-todo" class='col-11'>
                     <div class="row">
@@ -147,6 +152,9 @@ function Content() {
 
                             {/* isImportant */}
                             <input type='hidden' name='isImportant' value={false} />
+
+                            {/* user_id */}
+                            <input type='hidden' name='user_id' value={user_id} />
 
                         </form>
 
@@ -257,6 +265,9 @@ function Content() {
                     {/* dateTime */}
                     <input type='hidden' name='dateTime' value={job.dateTime} />
 
+                    {/* user_id */}
+                    <input type='hidden' name='user_id' value={user_id} />
+
                     <div className='btns-area col-10'>
                         <input type='hidden' value={job._id} name='_id'/>
                         <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
@@ -272,6 +283,7 @@ function Content() {
                 </form>
 
             </div>
+            :<p>请先登录</p>
     );
 }
 

@@ -1,10 +1,47 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Content from './Content';
+import Login from './Login';
 import Note from './Note';
 
 function App() {
+  const [userID,set_user_id] = useState("");
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+
+    const fetchData = async (token) => {
+      const response = await fetch('https://todo-nodejs-nu.vercel.app/api/protected', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      })
+  
+      if (response.ok) {
+        const data = await response.json();
+        set_user_id(data.user_id);
+        setIsLoggedIn(true);
+        console.log(userID)
+      } else {
+        localStorage.removeItem('token');
+        set_user_id("");
+        setIsLoggedIn(false);
+        console.log("设置user_id失败")
+      }
+  }
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        fetchData(token);
+      } catch (error) {
+        console.log('验证令牌时发生错误:', error);
+      }
+    }
+  }, [isLoggedIn,userID]);
 
   useEffect (() => {
 
@@ -28,8 +65,11 @@ function App() {
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link header-title" href="/">登录</a>
+              </li>
               <li class="nav-item">
-                <a class="nav-link header-title" aria-current="page" href="/task">任务</a>
+                <a class="nav-link header-title" href="/task">任务</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link header-title" href="/note">记录</a>
@@ -41,9 +81,9 @@ function App() {
       <div className="container-fluid">
         <div className="content-wrapper">
           <Routes>
-            <Route path="/" element={<Content />} />
-            <Route path="/task" element={<Content />} />
-            <Route path="/note" element={<Note />} />
+            <Route exact path="/" element={<Login setIsLoggedIn = {setIsLoggedIn}/>} />
+            <Route path="/task" element={<Content user_id ={userID}/>} />
+            <Route path="/note" element={<Note user_id ={userID}/>} /> 
           </Routes>
         </div>
       </div>

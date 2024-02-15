@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './note.scss';
 // const moment = require('moment');
 
-function Note() {
+function Note({user_id}) {
 
     const [isOpen, setIsOpen] = useState(false)
     const [notes, setNotes] = useState([])
@@ -11,11 +11,12 @@ function Note() {
 
     useEffect (() => {
 
-        fetch('https://todo-nodejs-nu.vercel.app/api/notes')
+        const url = `https://todo-nodejs-nu.vercel.app/api/notes?user_id=${user_id}`
+        fetch(url)
             .then(res => res.json())
             .then(data => setNotes(data))
         
-    },[])
+    },[user_id])
     notes.forEach(note => {
         if (note.isImportant === true) {
             numberOfImportant++
@@ -59,6 +60,7 @@ function Note() {
             data.forEach(note => {
                 const isUnique = notes.every(existingNote => existingNote.title !== note.title);
                 if (isUnique){
+                    note.user_id = user_id;
                     fetch('https://todo-nodejs-nu.vercel.app/insert-note', {
                     method: 'POST',
                     headers: {
@@ -78,10 +80,10 @@ function Note() {
     //     link : {type : String},
     //     isImportant : {type : Boolean},
     //     dateTime : {type : Date},
-    //     // user_id : {type : Object}
+        // user_id : {type : Object}
     // })
     
-    return(
+    return( (user_id.user_id !== "")?
             <div id="content" class='row'>
                 <div id="form-todo" class='col-11'>
                     <div class="row">
@@ -107,6 +109,9 @@ function Note() {
 
                             {/* isImportant */}
                             <input type='hidden' name='isImportant' value={false} />
+
+                            {/* user_id */}
+                            <input type='hidden' name='user_id' value={user_id} />
 
                         </form>
 
@@ -198,6 +203,9 @@ function Note() {
                     {/* dateTime */}
                     <input type='hidden' name='dateTime' value={job.dateTime} />
 
+                    {/* user_id */}
+                    <input type='hidden' name='user_id' value={user_id} />
+
                     <div className='btns-area col-10'>
                         <input type='hidden' value={job._id} name='_id'/>
                         <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
@@ -221,6 +229,7 @@ function Note() {
                 </form>
 
             </div>
+            :<p>请先登录</p>
     );
 }
 
