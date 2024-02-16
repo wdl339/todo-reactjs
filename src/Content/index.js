@@ -63,7 +63,8 @@ function Content({user_id}) {
     }
 
     const getCanvas = () => {
-        fetch('https://todo-nodejs-nu.vercel.app/api/eventlist')
+        const url = `https://todo-nodejs-nu.vercel.app/api/eventlist?user_id=${user_id}`
+        fetch(url)
         .then(res => res.json())
         .then(data => {
             data.forEach(task => {
@@ -79,8 +80,7 @@ function Content({user_id}) {
                 })
                 }
             });
-        })
-        
+        }) 
     }
 
     const ProgressBar = ({ deadline, dateTime }) => {

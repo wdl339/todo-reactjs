@@ -1,0 +1,30 @@
+
+.register {
+    background-color: #f6f8f9;
+    height: 700px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & .form-outline {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 16px;
+    }
+
+    & .btns-area {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+
+
+        & button {
+            margin: 0 10px;
+            font-size: 16px;
+        }
+    }
+}
+
+

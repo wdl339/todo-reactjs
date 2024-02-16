@@ -29,6 +29,10 @@ function Login({setIsLoggedIn}) {
             }
     }
 
+    const handleRegister = () => {
+        navigate('/register');
+      };
+
     const loginButtonRef = useRef(null)
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
@@ -40,7 +44,7 @@ function Login({setIsLoggedIn}) {
     return ( 
         <div className='col-12 login'>
             <h3>登录</h3><br></br>
-            <form method='POST' action='https://todo-nodejs-nu.vercel.app/insert-user' className='col-6' onKeyPress={handleKeyPress}>
+            <div className='col-6' onKeyPress={handleKeyPress}>
                 <div class="form-outline mb-4">
                     <label class="form-label username" for="form2Example1">用户</label>
                     <input name='userName' type="text" id="form2Example1" class="form-control txtusername" />
@@ -52,12 +56,12 @@ function Login({setIsLoggedIn}) {
                 </div>
                 
                 <div className='btns-area'>
-                    <button type="submit" class="btn btn-primary btn-block mb-4">注册</button>
+                    <button type="button" onClick={() => handleRegister()} class="btn btn-primary btn-block mb-4">注册</button>
                     <button type="button" ref={loginButtonRef} onClick={() => handleSignIn()} class="btn btn-primary btn-block mb-4">登录</button>
                 </div>
                 
             
-            </form>
+            </div>
         </div>
      );
 }

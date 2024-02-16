@@ -4,6 +4,7 @@ import './App.css';
 import Content from './Content';
 import Login from './Login';
 import Note from './Note';
+import Register from './Register'
 
 function App() {
   const [userID,set_user_id] = useState("");
@@ -82,6 +83,7 @@ function App() {
         <div className="content-wrapper">
           <Routes>
             <Route exact path="/" element={<Login setIsLoggedIn = {setIsLoggedIn}/>} />
+            <Route path="/register" element={<Register />} />
             <Route path="/task" element={<Content user_id ={userID}/>} />
             <Route path="/note" element={<Note user_id ={userID}/>} /> 
           </Routes>
