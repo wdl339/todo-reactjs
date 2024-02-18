@@ -126,7 +126,49 @@ function Content({user_id}) {
     //     deadLine : {type : Date},
         // user_id : {type : Object}
     // })
+
+    const addTask = async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+
+        const currentTime = new Date();
+        const chinaTimestamp = currentTime.getTime() - currentTime.getTimezoneOffset() * 60 * 1000;
     
+        var newTask = {
+          name: formData.get('name'),
+          dateTime: chinaTimestamp,
+          deadLine: formData.get('deadLine'),
+          isComplete: false,
+          description: '',
+          isImportant: false,
+          user_id: user_id,
+        };
+    
+        try {
+          const response = await fetch('https://todo-nodejs-nu.vercel.app/insert-task', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newTask),
+          });
+    
+          if (response.ok) {
+            const data = await response.json();
+            const taskId = data.id;
+            console.log(taskId)
+            newTask._id = taskId;
+            newTask.deadLine = moment(newTask.deadLine).add(8, 'hours');
+            setTasks((prevTasks) => [...prevTasks, newTask]);
+          } else {
+            console.error('任务添加失败');
+          }
+        } catch (error) {
+          console.error('发生错误', error);
+        }
+      };
+
     return( 
         (user_id !== "")?
             <div id="content" class='row'>
@@ -139,8 +181,7 @@ function Content({user_id}) {
                         
                         <button className="btn-canvas" onClick={() => {getCanvas()}}>同步canvas任务</button>
 
-                        <form method='POST' action='https://todo-nodejs-nu.vercel.app/insert-task' className='add-task-area col-12'>
-
+                        <form class="add-task-area" onSubmit={addTask}>
                             <button type='submit' class='btn btn-add' >添加</button>
 
                             {/* name */}
@@ -148,18 +189,6 @@ function Content({user_id}) {
                                 <input type='text' name='name' class='text-area' placeholder='新任务...' />
                                 <input type="datetime-local" class='ddl-area' name='deadLine'></input>
                             </div>
-
-                            {/* isComplete */}
-                            <input type='hidden' name='isComplete' value={false} />
-                                            
-                            {/* description */}
-                            <input type='hidden' name='description' value='' />
-
-                            {/* isImportant */}
-                            <input type='hidden' name='isImportant' value={false} />
-
-                            {/* user_id */}
-                            <input type='hidden' name='user_id' value={user_id} />
 
                         </form>
 
@@ -248,12 +277,6 @@ function Content({user_id}) {
                 </div>
 
                 <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-12'>
-
-                    {/* isImportant */}
-                    <input type='hidden' name='isImportant' value={job.isImportant} />
-
-                    {/* isComplete */}
-                    <input type='hidden' name='isComplete' value={job.isComplete} />
                     
                     {/* name */}
                     <textarea className='task-name-detail col-10' name='name' />
@@ -267,17 +290,11 @@ function Content({user_id}) {
                     {/* description */}
                     <textarea className='description col-10' name='description' />
 
-                    {/* dateTime */}
-                    <input type='hidden' name='dateTime' value={job.dateTime} />
-
-                    {/* user_id */}
-                    <input type='hidden' name='user_id' value={user_id} />
-
                     <div className='btns-area col-10'>
                         <input type='hidden' value={job._id} name='_id'/>
                         <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
 
-                        <form method='POST' action='https://todo-nodejs-nu.vercel.app/delete-task'>
+                        <form method='POST' action='https://todo-nodejs-nu.vercel.app/delete-task'>    
                             <input type='hidden' value={job._id} name='_id'/>
                             <button type="submit" class="btn btn-danger" value={job._id}>删除</button>
                         </form>
