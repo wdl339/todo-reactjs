@@ -67,7 +67,7 @@ function Content({user_id}) {
         fetch(url)
         .then(res => res.json())
         .then(data => {
-            data.forEach(task => {
+            const insertPromises = data.forEach(task => {
                 const isUnique = tasks.every(existingTask => existingTask.name !== task.name);
                 if (isUnique){
                     task.user_id = user_id;
@@ -79,8 +79,11 @@ function Content({user_id}) {
                     body: JSON.stringify(task)
                 })
                 }
+                return Promise.resolve();
             });
-        }) 
+
+            return Promise.all(insertPromises);
+        }).then(() => {alert('同步成功');})
     }
 
     const ProgressBar = ({ deadline, dateTime }) => {
@@ -156,16 +159,14 @@ function Content({user_id}) {
     
           if (response.ok) {
             const data = await response.json();
-            const taskId = data.id;
-            console.log(taskId)
-            newTask._id = taskId;
+            newTask._id = data.id;
             newTask.deadLine = moment(newTask.deadLine).add(8, 'hours');
             setTasks((prevTasks) => [...prevTasks, newTask]);
           } else {
             console.error('任务添加失败');
           }
         } catch (error) {
-          console.error('发生错误', error);
+          console.error('添加任务发生错误', error);
         }
       };
 

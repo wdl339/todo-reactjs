@@ -85,7 +85,7 @@ function Note({user_id}) {
                 })
                 }
             });
-        })
+        }).then(() => {window.alert('同步成功');})
         
     }
 
@@ -216,9 +216,6 @@ function Note({user_id}) {
 
                     {/* detail */}
                     <textarea className='detail col-10' name='detail' />
-
-                    {/* dateTime */}
-                    <input type='hidden' name='dateTime' value={job.dateTime} />
 
                     {/* user_id */}
                     <input type='hidden' name='user_id' value={user_id} />
