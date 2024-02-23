@@ -202,9 +202,6 @@ function Note({user_id}) {
                 </div>
 
                 <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-note' className='form-detail-note col-12'>
-
-                    {/* isImportant */}
-                    <input type='hidden' name='isImportant' value={job.isImportant} />
                     
                     {/* title */}
                     <textarea className='note-title-detail col-10' name='title' />
@@ -217,9 +214,6 @@ function Note({user_id}) {
 
                     {/* detail */}
                     <textarea className='detail col-10' name='detail' />
-
-                    {/* user_id */}
-                    <input type='hidden' name='user_id' value={user_id} />
 
                     <div className='btns-area col-10'>
                         <input type='hidden' value={job._id} name='_id'/>
