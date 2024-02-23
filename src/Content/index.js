@@ -5,6 +5,7 @@ const moment = require('moment');
 function Content({user_id}) {
 
     const [isOpen, setIsOpen] = useState(false)
+    const [taskFinishing, setTaskFinishing] = useState(false)
     const [tasks, setTasks] = useState([])
     const [job,setJob] = useState({})
     let numberOfComplete = 0
@@ -22,7 +23,7 @@ function Content({user_id}) {
                 setTasks(data);
             })
         
-    },[user_id])
+    },[user_id,taskFinishing])
 
     tasks.forEach(task => {
         if (task.isComplete === true) {
@@ -67,7 +68,7 @@ function Content({user_id}) {
         fetch(url)
         .then(res => res.json())
         .then(data => {
-            const insertPromises = data.forEach(task => {
+            data.forEach(task => {
                 const isUnique = tasks.every(existingTask => existingTask.name !== task.name);
                 if (isUnique){
                     task.user_id = user_id;
@@ -79,11 +80,8 @@ function Content({user_id}) {
                     body: JSON.stringify(task)
                 })
                 }
-                return Promise.resolve();
             });
-
-            return Promise.all(insertPromises);
-        }).then(() => {alert('同步成功');})
+        }).then(() => {window.alert('同步成功'); setTaskFinishing(!taskFinishing)})
     }
 
     const ProgressBar = ({ deadline, dateTime }) => {

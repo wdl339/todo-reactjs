@@ -8,6 +8,7 @@ function Note({user_id}) {
     const [notes, setNotes] = useState([])
     const [job, setJob] = useState({})
     const [date, setDate] = useState('')
+    const [taskFinishing, setTaskFinishing] = useState(false)
     let numberOfImportant = 0
 
     useEffect (() => {
@@ -85,7 +86,7 @@ function Note({user_id}) {
                 })
                 }
             });
-        }).then(() => {window.alert('同步成功');})
+        }).then(() => {window.alert('同步成功'); setTaskFinishing(!taskFinishing)})
         
     }
 
