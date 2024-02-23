@@ -23,7 +23,7 @@ function Note({user_id}) {
                 setNotes(data);
             })
         
-    },[user_id])
+    },[user_id,taskFinishing])
     useEffect (() => {
 
         var today = new Date();
