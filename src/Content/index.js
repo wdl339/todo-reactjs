@@ -10,11 +10,6 @@ function Content({user_id}) {
     const [job,setJob] = useState({})
     let numberOfComplete = 0
 
-    // test4
-    // test3
-    // test1
-    // test2
-
     useEffect (() => {
 
         const url = `https://todo-nodejs-nu.vercel.app/api/tasks?user_id=${user_id}`
