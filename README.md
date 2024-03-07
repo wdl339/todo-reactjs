@@ -1,6 +1,7 @@
 自制版todo list，更适合SJTUer体质的todo list
 
-网址：https://todo-reactjs-flax.vercel.app，需挂vpn访问
+网址：https://todo-reactjs-flax.vercel.app
+（需挂vpn访问）
 
 走过路过点个star再走呗！
 
