@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+自制版todo list，更适合SJTUer体质的todo list
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+网址：https://todo-reactjs-flax.vercel.app，需挂vpn访问
 
-## Available Scripts
+走过路过点个star再走呗！
 
-In the project directory, you can run:
+制作目的：提高生产力，为下个学期的“互联网应用开发技术”课程练手
 
-### `npm start`
+优点：
+1. 支持导入canvas平台的作业任务（交大特色）
+2. 支持导入教务处网站通知（使用js爬虫）
+3. 使用进度条代替传统日期显示，凸显紧迫感
+4. 响应式布局，手机端和电脑端的屏幕大小均适配
+5. 使用vercel便捷部署，在自己电脑上git push，即可更新网页代码
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+缺点：
+1. 服务器在海外（因为免费），需要挂vpn访问
+2. 数据库有限制存储大小（因为免费），大概是512MB（是不是还不如存我本地呢）。应该够我一个人用，就是不知道够几个人用
+3. 只有网页版，没有APP
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+未来计划：
+1. 加入对更多通知网站的通知导入
+2. 争取突破第二课堂的反爬防线（）
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+使用注意事项
+1. 同步canvas任务和同步教务处通知，点击按钮后，请等待弹窗显示“同步成功”。
+2. 请不要太频繁地使用同步教务处通知的功能。
+3. 任务展示是按照deadLine时间排序的，记录展示是按添加/发布时间排序的。
+4. 同步教务处通知时，会添加教务处最新的10条通知。不会重复添加，但如果你删掉过这10条之一的通知，它也会再被添加上。 因此，我建议你在“非精选”一栏里保留10条左右来自教务处的通知，然后超过这10条的不重要的通知都可以随意处置。
+5. 点击任务/记录的标题可以进入详情页面。刚同步的教务处通知的细节部分是有所省略的，可以点击“更新”按钮来获取完整内容。
+6. 一切解释权归wdl同学所有，不懂就问。
