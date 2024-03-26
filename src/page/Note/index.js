@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './note.scss';
 // const moment = require('moment');
+import OneNote from '../../component/OneNote';
 import { addNoteJson, getJwcNote, getNotes } from '../../service/note';
 import { formatTimeForNote } from '../../util/time';
 
@@ -84,7 +85,8 @@ function Note({user_id}) {
     
     return( (user_id !== "")?
             <div id="content" class='row'>
-                <div id="form-todo" class='col-11'>
+                <div class='col-s-0 col-lg-2'></div>
+                <div id="form-todo" class='col-lg-8 col-s-12'>
                     <div class="row">
                         <div className='title col-12'>
                             <i className='bx bx-sun sun'></i>
@@ -127,22 +129,7 @@ function Note({user_id}) {
 
                                 {notes.map((note,index) => {
                                     if (note.isImportant === true) {
-                                      
-                                        return <div key={index}  className={'note col-12 note' + index}>
-                                                    
-                                                <div className='info' onClick={() => {clickOpen(note)}}>
-                                                    <input type='text' className='note-title col-11' value={note.title} readOnly/>
-                                                </div>
-
-                                                {/*important */}
-                                                
-                                                <form id={'important'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-important-note'>
-                                                        {note.isImportant === false ? <i class="fa-regular fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i> 
-                                                            : <i class="fa-solid fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i>}
-                                                        <input type='hidden' value={note._id} name='_id'/>
-                                                        <input type='hidden' value={!note.isImportant} name='isImportant'/>
-                                                </form>
-                                                </div>
+                                        return  <OneNote note={note} index={index} clickOpen={clickOpen}/>
                                     } else{
                                         return <div></div>
                                     }
@@ -161,20 +148,7 @@ function Note({user_id}) {
 
                                 {notes.map((note,index) => {
                                     if (note.isImportant === false) {
-                                        return <div key={index} className={'note col-12 note' + index}>
-
-                                                <div className='info' onClick={() => {clickOpen(note)}}>
-                                                    <input type='text' className='note-title col-11' value={note.title} readOnly/>
-                                                </div>
-                                                
-                                                {/*important */}
-                                                <form id={'important'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-important-note'>
-                                                        {note.isImportant === false ? <i class="fa-regular fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i> 
-                                                            : <i class="fa-solid fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i>}
-                                                        <input type='hidden' value={note._id} name='_id'/>
-                                                        <input type='hidden' value={!note.isImportant} name='isImportant'/>
-                                                    </form>
-                                                </div>
+                                            return <OneNote note={note} index={index} clickOpen={clickOpen}/>
                                         } else{
                                             return <div></div>
                                         }
@@ -220,6 +194,7 @@ function Note({user_id}) {
                     </div>
                 </form>
 
+                <div class='col-s-0 col-lg-2'></div>
             </div>
             :<p>请先登录</p>
     );

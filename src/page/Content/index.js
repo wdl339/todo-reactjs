@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import ProgressBar from '../../component/ProgressBar';
+import OneTask from '../../component/OneTask';
 import { addTask, addTaskJson, getCanvasTask, getTasks } from '../../service/content';
 import { formatTime } from '../../util/time';
 import './content.scss';
@@ -12,6 +12,8 @@ function Content({user_id}) {
     const [tasks, setTasks] = useState([])
     const [job,setJob] = useState({})
     let numberOfComplete = 0
+    let oneMonthFromNow = new Date();
+    oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
 
     useEffect (() => {
 
@@ -109,7 +111,8 @@ function Content({user_id}) {
     return( 
         (user_id !== "")?
             <div id="content" class='row'>
-                <div id="form-todo" class='col-11'>
+                <div class='col-s-0 col-lg-2'></div>
+                <div id="form-todo" class='col-s-12 col-lg-8'>
                     <div class="row">
                         <div className='title col-12'>
                             <i className='bx bx-sun sun'></i>
@@ -130,7 +133,7 @@ function Content({user_id}) {
                         </form>
 
                         {/* no-complete-task-area */}
-                        <div className='area col-12'>
+                        <div className='area col-s-12'>
                             <div class="row">
                                 <div className='title col-12'>
                                     <i className='bx bx-chevron-down arrow'></i> 
@@ -138,36 +141,39 @@ function Content({user_id}) {
                                     <span className='number-complete'>{tasks.length - numberOfComplete}</span>
                                 </div>
 
-                                {tasks.map((task,index) => {
-                                    if (task.isComplete === false) {
-                                        return <div key={index} className={'task col-12 task' + index}>
-                                                {/* complete */}
-                                                    <form id={'complete'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-complete'>
-                                                        <input type='hidden' value={task._id} name='_id'/>
-                                                        <input type='hidden' value={!task.isComplete} name='isComplete'/>
-                                                        <input type='checkbox' className='check'  checked={task.isComplete}
-                                                            onChange={() => {document.getElementById('complete'+index).submit()}}/>
-                                                    </form>
-                                                    
-                                                <div className='info' onClick={() => {clickOpen(task)}}>
-                                                    <input type='text' className='task-name col-11' value={task.name} readOnly/>
-                                                    <ProgressBar deadline={task.deadLine} dateTime={task.dateTime} />
-                                                </div>
-                                                
+                                {/* 计算从哪个Index任务开始，距离任务结束时间在1个月内 */}
 
-                                                {/*important */}
-                                                
-                                                <form id={'important'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-important'>
-                                                        {task.isImportant === false ? <i class="fa-regular fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i> 
-                                                            : <i class="fa-solid fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i>}
-                                                        <input type='hidden' value={task._id} name='_id'/>
-                                                        <input type='hidden' value={!task.isImportant} name='isImportant'/>
-                                                </form>
-                                                </div>
+                                <div className='title col-12'>
+                                    <i className='bx bx-chevron-down arrow'></i>
+                                    <span>1个月内</span>
+                                </div>
+
+                                {tasks.map((task,index) => {
+                                    let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
+
+                                    if (task.isComplete === false && isUrgent === true) {
+                                        return <OneTask task={task} index={index} clickOpen={clickOpen}/>
                                     } else{
                                         return <div></div>
                                     }
                                 })}
+
+                                <div className='title col-12'>
+                                    <i className='bx bx-chevron-down arrow'></i>
+                                    <span>非紧急 </span>
+                                </div>
+
+                                {tasks.map((task,index) => {
+                                    let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
+
+                                    if (task.isComplete === false && isUrgent === false) {
+                                        return <OneTask task={task} index={index} clickOpen={clickOpen}/>
+                                    } else{
+                                        return <div></div>
+                                    }
+                                })}
+
+
                             </div>
                         </div>
 
@@ -182,28 +188,7 @@ function Content({user_id}) {
 
                                 {tasks.map((task,index) => {
                                     if (task.isComplete === true) {
-                                        return <div key={index} className={'task col-12 task' + index}>
-
-                                                {/* complete */}
-                                                <form id={'complete'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-complete'>
-                                                        <input type='hidden' value={task._id} name='_id'/>
-                                                        <input type='hidden' value={!task.isComplete} name='isComplete'/>
-                                                        <input type='checkbox' className='check'  checked={task.isComplete} 
-                                                            onChange={() => {document.getElementById('complete'+index).submit()}}/>
-                                                    </form>
-
-                                                <div className='info' onClick={() => {clickOpen(task)}}>
-                                                    <input type='text' className='task-name col-11' value={task.name} readOnly/>
-                                                </div>
-                                                
-                                                {/*important */}
-                                                <form id={'important'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-important'>
-                                                        {task.isImportant === false ? <i class="fa-regular fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i> 
-                                                            : <i class="fa-solid fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i>}
-                                                        <input type='hidden' value={task._id} name='_id'/>
-                                                        <input type='hidden' value={!task.isImportant} name='isImportant'/>
-                                                    </form>
-                                                </div>
+                                            return <OneTask task={task} index={index} clickOpen={clickOpen}/>
                                         } else{
                                             return <div></div>
                                         }
@@ -213,7 +198,7 @@ function Content({user_id}) {
                     </div>
                 </div>
 
-                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-12'>
+                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-s-12 col-lg-6'>
                     
                     {/* name */}
                     <textarea className='task-name-detail col-10' name='name' />
@@ -241,6 +226,7 @@ function Content({user_id}) {
                     </div>
                 </form>
 
+                <div class='col-s-0 col-lg-2'></div>
             </div>
             :<p>请先登录</p>
     );
