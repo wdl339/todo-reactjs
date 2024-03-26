@@ -21,7 +21,7 @@ function Register() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email:email, code:generatedCode }),
-                });
+            });
         }
     }
 

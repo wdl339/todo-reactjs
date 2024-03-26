@@ -1,46 +1,34 @@
 import { useEffect, useState } from 'react';
+import ProgressBar from '../../component/ProgressBar';
+import { addTask, addTaskJson, getCanvasTask, getTasks } from '../../service/content';
+import { formatTime } from '../../util/time';
 import './content.scss';
 const moment = require('moment');
 
 function Content({user_id}) {
 
     const [isOpen, setIsOpen] = useState(false)
-    const [taskFinishing, setTaskFinishing] = useState(false)
+    const [getTaskFinishing, setGetTaskFinishing] = useState(false)
     const [tasks, setTasks] = useState([])
     const [job,setJob] = useState({})
     let numberOfComplete = 0
 
     useEffect (() => {
 
-        const url = `https://todo-nodejs-nu.vercel.app/api/tasks?user_id=${user_id}`
-        console.log(url)
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                data.sort((a, b) => {
-                    return new Date(a.deadLine) - new Date(b.deadLine);
-                  });
-                setTasks(data);
-            })
+        getTasks(user_id).then(data => {
+            data.sort((a, b) => {
+                return new Date(a.deadLine) - new Date(b.deadLine);
+              });
+            setTasks(data);
+        })
         
-    },[user_id,taskFinishing])
+    },[user_id,getTaskFinishing])
 
     tasks.forEach(task => {
         if (task.isComplete === true) {
             numberOfComplete++
         }
     })
-
-    const changeTimetoStr = (time) =>{
-        var ddlUtc = new Date(time);
-        var year = ddlUtc.getFullYear();
-        var month = (ddlUtc.getUTCMonth() + 1).toString().padStart(2, '0');
-        var date = ddlUtc.getUTCDate().toString().padStart(2, '0');
-        var hour = ddlUtc.getUTCHours().toString().padStart(2, '0');
-        var minute = ddlUtc.getUTCMinutes().toString().padStart(2, '0');
-        var ddlValue = year + '-' + month + '-' + date + 'T' + hour + ':' + minute;
-        return ddlValue
-    }
 
     const clickOpen = (task) =>{
         const formDetail = document.querySelector('.form-detail-task')
@@ -50,7 +38,7 @@ function Content({user_id}) {
             document.querySelector('.description').value = task.description
             document.querySelector('.task-name-detail').value = task.name
             if (task.deadLine) {
-                document.querySelector('.ddl').value = changeTimetoStr(task.deadLine);
+                document.querySelector('.ddl').value = formatTime(task.deadLine);
             } else {
                 document.querySelector('.ddl').value = null;
             }
@@ -59,64 +47,20 @@ function Content({user_id}) {
             formDetail.style.right = '-2000px'
             setJob(task)
             setIsOpen(false)
-        }
-        
+        } 
     }
 
     const getCanvas = () => {
-        const url = `https://todo-nodejs-nu.vercel.app/api/eventlist?user_id=${user_id}`
-        fetch(url)
-        .then(res => res.json())
-        .then(data => {
+        getCanvasTask(user_id).then(data => {
             data.forEach(task => {
                 const isUnique = tasks.every(existingTask => existingTask.name !== task.name);
                 if (isUnique){
                     task.user_id = user_id;
-                    fetch('https://todo-nodejs-nu.vercel.app/insert-task', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(task)
-                })
+                    addTaskJson(task);
                 }
             });
-        }).then(() => {window.alert('同步成功'); setTaskFinishing(!taskFinishing)})
+        }).then(() => {window.alert('同步成功'); setGetTaskFinishing(!getTaskFinishing)})
     }
-
-    const ProgressBar = ({ deadline, dateTime }) => {
-        if (deadline){
-            const deadlineDate = moment(deadline).subtract(8, 'hours');
-            const dateTimeDate = moment(dateTime).subtract(8, 'hours');
-            const currentDate = moment();
-            const timeDiff = deadlineDate - currentDate;
-            const totalDiff = deadlineDate - dateTimeDate;
-            const progress = Math.floor((timeDiff / totalDiff) * 100);
-        
-            if (progress > 50 && progress <= 100) {
-            return (
-                <div className="progress col-12">
-                    <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">
-                        {changeTimetoStr(moment(deadline))}
-                    </div>
-                </div>
-            );
-            } else if(progress > 0 && progress <= 50){
-                return (
-                    <div className="progress col-12">
-                        <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">
-                        </div>
-                        <p>{changeTimetoStr(moment(deadline))}</p>
-                    </div>
-                );
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-            }
-        
-      };
 
     //   const Task = new Schema ({
     //     name : {type : String},
@@ -128,7 +72,7 @@ function Content({user_id}) {
         // user_id : {type : Object}
     // })
 
-    const addTask = async (event) => {
+    const addOneTask = async (event) => {
         event.preventDefault();
         const form = event.target;
         const formData = new FormData(form);
@@ -147,13 +91,7 @@ function Content({user_id}) {
         };
     
         try {
-          const response = await fetch('https://todo-nodejs-nu.vercel.app/insert-task', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newTask),
-          });
+          const response = await addTask(newTask);
     
           if (response.ok) {
             const data = await response.json();
@@ -180,7 +118,7 @@ function Content({user_id}) {
                         
                         <button className="btn-canvas" onClick={() => {getCanvas()}}>同步canvas任务</button>
 
-                        <form class="add-task-area" onSubmit={addTask}>
+                        <form class="add-task-area" onSubmit={addOneTask}>
                             <button type='submit' class='btn btn-add' >添加</button>
 
                             {/* name */}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import './note.scss';
 // const moment = require('moment');
+import { addNoteJson, getJwcNote, getNotes } from '../../service/note';
+import { formatTimeForNote } from '../../util/time';
 
 function Note({user_id}) {
 
@@ -8,22 +10,20 @@ function Note({user_id}) {
     const [notes, setNotes] = useState([])
     const [job, setJob] = useState({})
     const [date, setDate] = useState('')
-    const [taskFinishing, setTaskFinishing] = useState(false)
+    const [getTaskFinishing, setGetTaskFinishing] = useState(false)
     let numberOfImportant = 0
 
     useEffect (() => {
 
-        const url = `https://todo-nodejs-nu.vercel.app/api/notes?user_id=${user_id}`
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                data.sort((a, b) => {
-                    return new Date(b.dateTime) - new Date(a.dateTime);
-                  });
-                setNotes(data);
-            })
+        getNotes(user_id).then(data => {
+            data.sort((a, b) => {
+                return new Date(b.dateTime) - new Date(a.dateTime);
+              });
+            setNotes(data);
+        })
         
-    },[user_id,taskFinishing])
+    },[user_id,getTaskFinishing])
+
     useEffect (() => {
 
         var today = new Date();
@@ -39,15 +39,6 @@ function Note({user_id}) {
         }
     })
 
-    const changeTimetoStr = (time) =>{
-        var ddlUtc = new Date(time);
-        var year = ddlUtc.getFullYear();
-        var month = (ddlUtc.getUTCMonth() + 1).toString().padStart(2, '0');
-        var date = ddlUtc.getUTCDate().toString().padStart(2, '0');
-        var ddlValue = year + '-' + month + '-' + date;
-        return ddlValue
-    }
-
     const clickOpen = (note) =>{
         const formDetail = document.querySelector('.form-detail-note')
         if (isOpen === false){
@@ -56,7 +47,7 @@ function Note({user_id}) {
             document.querySelector('.detail').value = note.detail
             document.querySelector('.note-title-detail').value = note.title
             if (note.dateTime) {
-                document.querySelector('.ddl').value = changeTimetoStr(note.dateTime);
+                document.querySelector('.ddl').value = formatTimeForNote(note.dateTime);
             } else {
                 document.querySelector('.ddl').value = null;
             }
@@ -70,23 +61,15 @@ function Note({user_id}) {
     }
 
     const getJwc = () => {
-        fetch('https://todo-nodejs-nu.vercel.app/api/news')
-        .then(res => res.json())
-        .then(data => {
+        getJwcNote().then(data => {
             data.forEach(note => {
                 const isUnique = notes.every(existingNote => existingNote.title !== note.title);
                 if (isUnique){
                     note.user_id = user_id;
-                    fetch('https://todo-nodejs-nu.vercel.app/insert-note', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(note)
-                })
+                    addNoteJson(note);
                 }
             });
-        }).then(() => {window.alert('同步成功'); setTaskFinishing(!taskFinishing)})
+        }).then(() => {window.alert('同步成功'); setGetTaskFinishing(!getTaskFinishing)})
         
     }
 
