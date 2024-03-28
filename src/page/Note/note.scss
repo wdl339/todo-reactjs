@@ -180,7 +180,7 @@
             justify-content: center;
             align-items: center;
             display: flex;
-            height:15%;
+            height:15vh;
 
             & button {
                 margin: 0 10px;
@@ -190,7 +190,7 @@
 
         & .detail {
             margin-top: 10px;
-            height: 55%;
+            height: 55vh;
             width:80%;
             border-radius: 5px;
             border: 1px solid #c7c4c4;
@@ -204,7 +204,7 @@
 
         & .note-title-detail {
             margin-top: 10px;
-            height:10%;
+            height:10vh;
             width:80%;
             border-radius: 5px;
             border: 1px solid #c7c4c4;
@@ -220,7 +220,7 @@
             justify-content: center;
             align-items: center;
             display: flex;
-            height:10%;
+            height:10vh;
 
             .clock {
                 font-size: 30px;

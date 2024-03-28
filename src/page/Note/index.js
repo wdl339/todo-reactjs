@@ -12,6 +12,7 @@ function Note({user_id}) {
     const [job, setJob] = useState({})
     const [date, setDate] = useState('')
     const [getTaskFinishing, setGetTaskFinishing] = useState(false)
+    const [savedScrollPosition, setSavedScrollPosition] = useState(0)
     let numberOfImportant = 0
 
     useEffect (() => {
@@ -43,6 +44,8 @@ function Note({user_id}) {
     const clickOpen = (note) =>{
         const formDetail = document.querySelector('.form-detail-note')
         if (isOpen === false){
+            setSavedScrollPosition(window.scrollY);
+            window.scrollTo(0, 0);
             formDetail.style.right = '0px'
             setJob(note)
             document.querySelector('.detail').value = note.detail
@@ -54,6 +57,8 @@ function Note({user_id}) {
             }
             setIsOpen(true)
         } else{
+            window.scrollTo(0, savedScrollPosition);
+            setSavedScrollPosition(0);
             formDetail.style.right = '-2000px'
             setJob(note)
             setIsOpen(false)

@@ -11,6 +11,7 @@ function Content({user_id}) {
     const [getTaskFinishing, setGetTaskFinishing] = useState(false)
     const [tasks, setTasks] = useState([])
     const [job,setJob] = useState({})
+    const [savedScrollPosition, setSavedScrollPosition] = useState(0)
     let numberOfComplete = 0
     let oneMonthFromNow = new Date();
     oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
@@ -35,6 +36,8 @@ function Content({user_id}) {
     const clickOpen = (task) =>{
         const formDetail = document.querySelector('.form-detail-task')
         if (isOpen === false){
+            setSavedScrollPosition(window.scrollY);
+            window.scrollTo(0, 0);
             formDetail.style.right = '0px'
             setJob(task)
             document.querySelector('.description').value = task.description
@@ -46,6 +49,8 @@ function Content({user_id}) {
             }
             setIsOpen(true)
         } else{
+            window.scrollTo(0, savedScrollPosition);
+            setSavedScrollPosition(0);
             formDetail.style.right = '-2000px'
             setJob(task)
             setIsOpen(false)
@@ -198,7 +203,7 @@ function Content({user_id}) {
                     </div>
                 </div>
 
-                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-s-12 col-lg-6'>
+                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-12'>
                     
                     {/* name */}
                     <textarea className='task-name-detail col-10' name='name' />
@@ -206,7 +211,7 @@ function Content({user_id}) {
                     {/* deadLine */}
                     <div className="ddl-area col-10">
                         <i class="fa-solid fa-clock clock"></i> 
-                        <input type="datetime" className='ddl' name='deadLine'></input>
+                        <input type="datetime-local" className='ddl' name='deadLine'></input>
                     </div>
 
                     {/* description */}
