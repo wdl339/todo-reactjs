@@ -1,5 +1,35 @@
+import React from 'react';
+import { updateNoteImportant } from '../service/note';
 
-function OneNote({note, index, clickOpen}) {
+function OneNote({setNotes, note, index, clickOpen}) {
+
+  const importantSubmit = async (event) => {
+    event.preventDefault();
+    console.log('importantSubmit');
+
+    const data = {
+        _id: note._id,
+        isImportant: !note.isImportant
+    }
+
+    try {
+        const response = await updateNoteImportant(data);
+
+        if (response.ok) {
+            setNotes((prevNotes) => {
+                const newNotes = [...prevNotes];
+                newNotes[index].isImportant = !note.isImportant;
+                return newNotes;
+            });
+        } else {
+            console.error('任务更新失败');
+        }
+
+    } catch (error) {
+        console.error('更新任务时发生错误', error);
+    }
+  }
+  
   return (
     <div key={index} className={'note col-12 note' + index}>
                                                         
@@ -7,14 +37,10 @@ function OneNote({note, index, clickOpen}) {
             <input type='text' className='note-title col-11' value={note.title} readOnly/>
         </div>
 
-        {/*important */}
-        
-        <form id={'important'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-important-note'>
-                {note.isImportant === false ? <i class="fa-regular fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i> 
-                    : <i class="fa-solid fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i>}
-                <input type='hidden' value={note._id} name='_id'/>
-                <input type='hidden' value={!note.isImportant} name='isImportant'/>
-        </form>
+        <div id={'important'+index}>
+                {note.isImportant === false ? <i class="fa-regular fa-star star" onClick={(event) => importantSubmit(event,index)}></i> 
+                    : <i class="fa-solid fa-star star" onClick={(event) => importantSubmit(event,index)}></i>}
+        </div>
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import OneTask from '../../component/OneTask';
-import { addTask, addTaskJson, getCanvasTask, getTasks } from '../../service/content';
-import { formatTime } from '../../util/time';
-import './content.scss';
+import AddTaskArea from '../component/AddTaskArea';
+import OneTask from '../component/OneTask';
+import TaskDetail from '../component/TaskDetail';
+import '../css/content.scss';
+import { addTaskJson, getCanvasTask, getTasks } from '../service/content';
+import { formatTime, getToday } from '../util/time';
 const moment = require('moment');
 
 function Content({user_id}) {
@@ -12,6 +14,7 @@ function Content({user_id}) {
     const [tasks, setTasks] = useState([])
     const [job,setJob] = useState({})
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
+    const [date, setDate] = useState('')
     let numberOfComplete = 0
     let oneMonthFromNow = new Date();
     oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
@@ -24,8 +27,10 @@ function Content({user_id}) {
               });
             setTasks(data);
         })
+
+        setDate(getToday()) ;
         
-    },[user_id,getTaskFinishing])
+    },[user_id, getTaskFinishing, tasks])
 
     tasks.forEach(task => {
         if (task.isComplete === true) {
@@ -79,63 +84,19 @@ function Content({user_id}) {
         // user_id : {type : Object}
     // })
 
-    const addOneTask = async (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-
-        const currentTime = new Date();
-        const chinaTimestamp = currentTime.getTime() - currentTime.getTimezoneOffset() * 60 * 1000;
-    
-        var newTask = {
-          name: formData.get('name'),
-          dateTime: chinaTimestamp,
-          deadLine: formData.get('deadLine'),
-          isComplete: false,
-          description: '',
-          isImportant: false,
-          user_id: user_id,
-        };
-    
-        try {
-          const response = await addTask(newTask);
-    
-          if (response.ok) {
-            const data = await response.json();
-            newTask._id = data.id;
-            newTask.deadLine = moment(newTask.deadLine).add(8, 'hours');
-            setTasks((prevTasks) => [...prevTasks, newTask]);
-          } else {
-            console.error('任务添加失败');
-          }
-        } catch (error) {
-          console.error('添加任务发生错误', error);
-        }
-      };
-
     return( 
         (user_id !== "")?
             <div id="content" class='row'>
                 <div class='col-s-0 col-lg-2'></div>
-                <div id="form-todo" class='col-s-12 col-lg-8'>
+                <div id="form-todo" class='col-lg-8 col-s-12'>
                     <div class="row">
                         <div className='title col-12'>
-                            <i className='bx bx-sun sun'></i>
-                            <p>所有任务 ({tasks.length})</p>
+                            <p>{date} 所有任务</p>
                         </div>
                         
                         <button className="btn-canvas" onClick={() => {getCanvas()}}>同步canvas任务</button>
 
-                        <form class="add-task-area" onSubmit={addOneTask}>
-                            <button type='submit' class='btn btn-add' >添加</button>
-
-                            {/* name */}
-                            <div className='info col-lg-11'>
-                                <input type='text' name='name' class='text-area' placeholder='新任务...' />
-                                <input type="datetime-local" class='ddl-area' name='deadLine'></input>
-                            </div>
-
-                        </form>
+                        <AddTaskArea setTasks={setTasks} user_id={user_id}/>
 
                         {/* no-complete-task-area */}
                         <div className='area col-s-12'>
@@ -157,7 +118,7 @@ function Content({user_id}) {
                                     let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
 
                                     if (task.isComplete === false && isUrgent === true) {
-                                        return <OneTask task={task} index={index} clickOpen={clickOpen}/>
+                                        return <OneTask task={task} index={index} clickOpen={clickOpen} setTasks={setTasks}/>
                                     } else{
                                         return <div></div>
                                     }
@@ -165,7 +126,7 @@ function Content({user_id}) {
 
                                 <div className='title col-12'>
                                     <i className='bx bx-chevron-down arrow'></i>
-                                    <span>非紧急 </span>
+                                    <span>1个月后 </span>
                                 </div>
 
                                 {tasks.map((task,index) => {
@@ -203,33 +164,7 @@ function Content({user_id}) {
                     </div>
                 </div>
 
-                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-12'>
-                    
-                    {/* name */}
-                    <textarea className='task-name-detail col-10' name='name' />
-
-                    {/* deadLine */}
-                    <div className="ddl-area col-10">
-                        <i class="fa-solid fa-clock clock"></i> 
-                        <input type="datetime-local" className='ddl' name='deadLine'></input>
-                    </div>
-
-                    {/* description */}
-                    <textarea className='description col-10' name='description' />
-
-                    <div className='btns-area col-10'>
-                        <input type='hidden' value={job._id} name='_id'/>
-                        <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
-
-                        <form method='POST' action='https://todo-nodejs-nu.vercel.app/delete-task'>    
-                            <input type='hidden' value={job._id} name='_id'/>
-                            <button type="submit" class="btn btn-danger" value={job._id}>删除</button>
-                        </form>
-
-                        <button type="button" class="btn btn-secondary" onClick={() => clickOpen(job)}>返回</button>
-                        
-                    </div>
-                </form>
+                <TaskDetail job={job} clickOpen={clickOpen}/>
 
                 <div class='col-s-0 col-lg-2'></div>
             </div>

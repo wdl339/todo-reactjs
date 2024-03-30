@@ -44,3 +44,37 @@ export async function addTask(task) {
     }
     return res;
 }
+
+export async function updateComplete(data) {
+    const url = `https://todo-nodejs-nu.vercel.app/update-complete`;
+    let res;
+    try {
+        res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    } catch (error) {
+        console.error(error);
+    }
+    return res;
+}
+
+export async function updateImportant(data) {
+    const url = `https://todo-nodejs-nu.vercel.app/update-important`;
+    let res;
+    try {
+        res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    } catch (error) {
+        console.error(error);
+    }
+    return res;
+}

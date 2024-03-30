@@ -1,7 +1,7 @@
 
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.scss';
+import '../css/login.scss';
 
 function Login({setIsLoggedIn}) {
     const navigate = useNavigate()

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import './note.scss';
+import '../css/note.scss';
 // const moment = require('moment');
-import OneNote from '../../component/OneNote';
-import { addNoteJson, getJwcNote, getNotes } from '../../service/note';
-import { formatTimeForNote } from '../../util/time';
+import AddNoteArea from '../component/AddNoteArea';
+import NoteDetail from '../component/NoteDetail';
+import OneNote from '../component/OneNote';
+import { addNoteJson, getJwcNote, getNotes } from '../service/note';
+import { formatTimeForNote, getToday } from '../util/time';
 
 function Note({user_id}) {
 
@@ -23,18 +25,11 @@ function Note({user_id}) {
               });
             setNotes(data);
         })
-        
-    },[user_id,getTaskFinishing])
 
-    useEffect (() => {
-
-        var today = new Date();
-        var year = today.getFullYear();
-        var month = today.getMonth() + 1; 
-        var day = today.getDate();
-        setDate(year + "-" + month + "-" + day)
+        setDate(getToday());
         
-      },[])
+    },[user_id, getTaskFinishing, notes])
+
     notes.forEach(note => {
         if (note.isImportant === true) {
             numberOfImportant++
@@ -89,39 +84,17 @@ function Note({user_id}) {
     // })
     
     return( (user_id !== "")?
-            <div id="content" class='row'>
+            <div id="note" class='row'>
                 <div class='col-s-0 col-lg-2'></div>
                 <div id="form-todo" class='col-lg-8 col-s-12'>
                     <div class="row">
                         <div className='title col-12'>
-                            <i className='bx bx-sun sun'></i>
-                            <p>所有记录 ({notes.length})</p>
+                            <p>{date} 所有记录</p>
                         </div>
                         
                         <button className="btn-jwc" onClick={() => {getJwc()}}>同步教务处通知</button>
 
-                        <form method='POST' action='https://todo-nodejs-nu.vercel.app/insert-note' className='add-note-area col-12'>
-
-                            <button type='submit' class='btn btn-add' >添加</button>
-
-                            {/* title */}
-                            <div className='info col-lg-11'>
-                                <input type='text' name='title' class='text-area' placeholder='新记录...' />
-                            </div>
-
-                            {/* dateTime */}
-                            <input type="hidden" name='dateTime' value={date}/>
-                                            
-                            {/* detail */}
-                            <input type='hidden' name='detail' value='' />
-
-                            {/* isImportant */}
-                            <input type='hidden' name='isImportant' value={false} />
-
-                            {/* user_id */}
-                            <input type='hidden' name='user_id' value={user_id} />
-
-                        </form>
+                        <AddNoteArea setNotes={setNotes} date={date} user_id={user_id}/>
 
                         {/* important-note-area */}
                         <div className='area col-12'>
@@ -134,7 +107,7 @@ function Note({user_id}) {
 
                                 {notes.map((note,index) => {
                                     if (note.isImportant === true) {
-                                        return  <OneNote note={note} index={index} clickOpen={clickOpen}/>
+                                        return  <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen}/>
                                     } else{
                                         return <div></div>
                                     }
@@ -153,7 +126,7 @@ function Note({user_id}) {
 
                                 {notes.map((note,index) => {
                                     if (note.isImportant === false) {
-                                            return <OneNote note={note} index={index} clickOpen={clickOpen}/>
+                                            return <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen}/>
                                         } else{
                                             return <div></div>
                                         }
@@ -163,41 +136,7 @@ function Note({user_id}) {
                     </div>
                 </div>
 
-                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-note' className='form-detail-note col-12'>
-                    
-                    {/* title */}
-                    <textarea className='note-title-detail col-10' name='title' />
-
-                    {/* dateTime */}
-                    <div className="ddl-area col-10">
-                        <i class="fa-solid fa-clock clock"></i> 
-                        <input type="date" className='ddl' name='dateTime'></input>
-                    </div>
-
-                    {/* detail */}
-                    <textarea className='detail col-10' name='detail' />
-
-                    <div className='btns-area col-10'>
-                        <input type='hidden' value={job._id} name='_id'/>
-                        <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
-
-                        {job.link && (
-                            <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-detail'>
-                                <input type='hidden' value={job._id} name='_id'/>
-                                <input type='hidden' value={job.link} name='link'/>
-                                <button type="submit" className="btn btn-primary" value={job._id}>更新</button>
-                            </form>
-                        )}
-
-                        <form method='POST' action='https://todo-nodejs-nu.vercel.app/delete-note'>
-                            <input type='hidden' value={job._id} name='_id'/>
-                            <button type="submit" class="btn btn-danger" value={job._id}>删除</button>
-                        </form>
-
-                        <button type="button" class="btn btn-secondary" onClick={() => clickOpen(job)}>返回</button>
-                        
-                    </div>
-                </form>
+                <NoteDetail job={job} clickOpen={clickOpen}/>
 
                 <div class='col-s-0 col-lg-2'></div>
             </div>

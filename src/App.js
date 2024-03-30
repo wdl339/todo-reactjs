@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Content from './page/Content';
-import Login from './page/Login';
-import Note from './page/Note';
-import Register from './page/Register';
+import Register from './page/register';
+import Content from './page/content';
+import Login from './page/login';
+import Note from './page/note';
 
 function App() {
   const [userID,set_user_id] = useState("");
@@ -44,24 +44,12 @@ function App() {
     }
   }, [isLoggedIn,userID]);
 
-  useEffect (() => {
-
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1; 
-    var day = today.getDate();
-    var dateElement = document.querySelector(".date");
-    dateElement.textContent = year + "-" + month + "-" + day;
-    
-  },[])
-
   return (
     <BrowserRouter>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid header">
           <i class="fa-regular fa-calendar-check header-title"></i>
           <a class="navbar-brand header-title" href="/task"> To Do</a>
-          <div className="date header-title"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i className="fa-solid fa-bars header-title"></i>
           </button>

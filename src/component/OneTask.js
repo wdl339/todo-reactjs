@@ -1,31 +1,83 @@
 import React from 'react';
+import '../css/content.scss';
+import { updateComplete, updateImportant } from '../service/content';
 import ProgressBar from './ProgressBar';
 
-function OneTask({task, index, clickOpen}){
+function OneTask({task, index, clickOpen,setTasks}){
+
+    const completeSubmit = async (event,index) => {
+        event.preventDefault();
+        console.log('completeSubmit');
+
+        const data = {
+            _id: task._id,
+            isComplete: !task.isComplete
+        }
+
+        try {
+            const response = await updateComplete(data);
+
+            if (response.ok) {
+                setTasks((prevTasks) => {
+                    const newTasks = [...prevTasks];
+                    newTasks[index].isComplete = !task.isComplete;
+                    return newTasks;
+                });
+            } else {
+                console.error('任务更新失败');
+            }
+
+        } catch (error) {
+            console.error('更新任务时发生错误', error);
+        }
+    }
+
+    const importantSubmit = async (event,index) => {
+        event.preventDefault();
+        console.log('importantSubmit');
+
+        const data = {
+            _id: task._id,
+            isImportant: !task.isImportant
+        }
+
+        try {
+            const response = await updateImportant(data);
+
+            if (response.ok) {
+                setTasks((prevTasks) => {
+                    const newTasks = [...prevTasks];
+                    newTasks[index].isImportant = !task.isImportant;
+                    return newTasks;
+                });
+            } else {
+                console.error('任务更新失败');
+            }
+
+        } catch (error) {
+            console.error('更新任务时发生错误', error);
+        }
+    }
+
     return (
         <div key={index} className={'task col-12 task' + index}>
             {/* complete */}
-                <form id={'complete'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-complete'>
-                    <input type='hidden' value={task._id} name='_id'/>
-                    <input type='hidden' value={!task.isComplete} name='isComplete'/>
+                <div id={'complete'+index}>
                     <input type='checkbox' className='check'  checked={task.isComplete}
-                        onChange={() => {document.getElementById('complete'+index).submit()}}/>
-                </form>
+                        onChange={(event) => completeSubmit(event,index)}/>
+                </div>
                 
             <div className='info' onClick={() => {clickOpen(task)}}>
                 <input type='text' className='task-name col-11' value={task.name} readOnly/>
                 {task.isComplete ? null: <ProgressBar deadline={task.deadLine} dateTime={task.dateTime} />}
             </div>
-            
 
             {/*important */}
             
-            <form id={'important'+index} method='POST' action='https://todo-nodejs-nu.vercel.app/update-important'>
-                    {task.isImportant === false ? <i class="fa-regular fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i> 
-                        : <i class="fa-solid fa-star star" onClick={() => {document.getElementById('important'+index).submit()}}></i>}
-                    <input type='hidden' value={task._id} name='_id'/>
-                    <input type='hidden' value={!task.isImportant} name='isImportant'/>
-            </form>
+            <div id={'important'+index}>
+                {task.isImportant === false ? <i class="fa-regular fa-star star" onClick={(event) => importantSubmit(event,index)}></i> 
+                    : <i class="fa-solid fa-star star" onClick={(event) => importantSubmit(event,index)}></i>}
+            </div>
         </div>
     );
 }

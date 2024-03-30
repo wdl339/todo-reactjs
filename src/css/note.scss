@@ -1,4 +1,6 @@
-#content {
+
+
+#note {
     background-color:#f6f8f9;
     display: flex;
     justify-content: flex-start;
@@ -9,8 +11,8 @@
     & #form-todo {
         margin-top: 25px;
         transition: 0.5s;
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 25px;
+        margin-right: 25px;
         flex:1;
         margin-bottom: 50px;
 
@@ -32,12 +34,11 @@
                 margin-top: 10px;
             }
 
-
         }
 
-        & .btn-canvas {
-            margin-top: 10px;
+        & .btn-jwc {
             border-radius: 5px;
+            margin-top: 10px;
             border: 2px solid black;
             color: black;
             background: 0;
@@ -47,10 +48,10 @@
         }
 
 
-        & .add-task-area {
+        & .add-note-area {
             background-color: white;
             border: 2px solid black;
-            height: 90px;
+            height: 60px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
@@ -74,14 +75,6 @@
                     outline: 0;
                 }
 
-                & .ddl-area {
-                    width:100%;
-                    margin-top: 10px;
-                    border-radius: 5px;
-                    border: 1px solid black;
-                    font-size: 14px;
-                }
-
             }
 
             & .btn-add {
@@ -89,12 +82,11 @@
                 border: 2px solid #E5E8E8;
                 color: black;
                 background: 0;
-                padding: 15px 10px;
+                padding: 5px 5px;
                 font-size: 15px;
                 position: absolute;
                 right: 10px;
             }
-
 
             }
         }
@@ -115,12 +107,12 @@
                 font-size: 25px;
             }
 
-            & .number-complete {
+            & .number-important {
                 margin-left: 15px;
                 font-size: 14px;
             }
 
-            & .task {
+            & .note {
                 background-color: white;
                 border: 2px solid black;
                 height: 60px;
@@ -137,7 +129,7 @@
                     flex-direction: column;
                     position: relative;
     
-                    & .task-name {
+                    & .note-title {
                         border: 0;
                         font-size: 14px;
                         text-align: start;
@@ -147,23 +139,10 @@
                         max-width: 100%;
                     }
 
-                    & .task-name:focus {
+                    & .note-title:focus {
                         outline: none;
                       }
 
-                    & .progress {
-                        margin-top: 5px;
-                        height: 14px;
-                    }
-
-                    & p {
-                        display: flex;
-                        justify-content: flex-start;
-                        font-size: 12px;
-                        margin-left: 10px;
-                        margin-bottom: 0;
-                        align-items: center;
-                    }
                 }
 
                 .star {
@@ -186,7 +165,7 @@
             }
         }
 
-    & .form-detail-task {
+    & .form-detail-note {
         background-color: white;
         right: -2000px;
         position: absolute;
@@ -209,7 +188,7 @@
             }
         }
 
-        & .description {
+        & .detail {
             margin-top: 10px;
             height: 55vh;
             width:80%;
@@ -219,11 +198,11 @@
             font-size: 14px;
             padding: 10px;
         }
-        & .description:focus {
+        & .detail:focus {
             outline: 1px;
         }
 
-        & .task-name-detail {
+        & .note-title-detail {
             margin-top: 10px;
             height:8vh;
             width:80%;
@@ -233,7 +212,7 @@
             font-size: 14px;
             padding: 10px;
         }
-        & .task-name-detail:focus {
+        & .note-title-detail:focus {
             outline: 1px;
         }
 
