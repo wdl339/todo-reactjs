@@ -10,6 +10,10 @@ const ProgressBar = ({ deadline, dateTime }) => {
         const timeDiff = deadlineDate - currentDate;
         const totalDiff = deadlineDate - dateTimeDate;
         let progress = Math.floor((timeDiff / totalDiff) * 100);
+
+        if (progress === 0 && timeDiff > 0) {
+            progress = 1;
+        }
     
         if (progress > 50 && progress <= 100) {
         return (

@@ -5,7 +5,7 @@ import TaskDetail from '../component/TaskDetail';
 import '../css/content.scss';
 import { addTaskJson, getCanvasTask, getTasks } from '../service/content';
 import { formatTime, getToday } from '../util/time';
-const moment = require('moment');
+// const moment = require('moment');
 
 function Content({user_id}) {
 
@@ -15,6 +15,10 @@ function Content({user_id}) {
     const [job,setJob] = useState({})
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
     const [date, setDate] = useState('')
+    const [isfolded0, setIsFolded0] = useState(false)
+    const [isfolded1, setIsFolded1] = useState(false)
+    const [isfolded2, setIsFolded2] = useState(false)
+    const [isfolded3, setIsFolded3] = useState(false)
     let numberOfComplete = 0
     let oneMonthFromNow = new Date();
     oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
@@ -62,6 +66,26 @@ function Content({user_id}) {
         } 
     }
 
+    const onFold = (num) => {
+        if (num === 0){
+            return () => {
+                setIsFolded0(!isfolded0)
+            }
+        } else if (num === 1){
+            return () => {
+                setIsFolded1(!isfolded1)
+            }
+        } else if (num === 2){
+            return () => {
+                setIsFolded2(!isfolded2)
+            }
+        } else if (num === 3){
+            return () => {
+                setIsFolded3(!isfolded3)
+            }
+        }
+    }
+
     const getCanvas = () => {
         getCanvasTask(user_id).then(data => {
             data.forEach(task => {
@@ -102,44 +126,51 @@ function Content({user_id}) {
                         <div className='area col-s-12'>
                             <div class="row">
                                 <div className='title col-12'>
-                                    <i className='bx bx-chevron-down arrow'></i> 
+                                    {isfolded0 ? <i className="bx bx-chevron-right arrow" onClick={onFold(0)}></i> 
+                                        : <i className='bx bx-chevron-down arrow' onClick={onFold(0)}></i>}
                                     <span>未完成 </span>
                                     <span className='number-complete'>{tasks.length - numberOfComplete}</span>
                                 </div>
 
-                                {/* 计算从哪个Index任务开始，距离任务结束时间在1个月内 */}
+                                {!isfolded0 &&
+                                    <>
+                                    <div className='title col-12'>
+                                        {isfolded1 ? <i className="bx bx-chevron-right arrow" onClick={onFold(1)}></i> 
+                                            : <i className='bx bx-chevron-down arrow' onClick={onFold(1)}></i>}
+                                        <span>1个月内</span>
+                                    </div>
 
-                                <div className='title col-12'>
-                                    <i className='bx bx-chevron-down arrow'></i>
-                                    <span>1个月内</span>
-                                </div>
+                                    {!isfolded1 &&
+                                        tasks.map((task,index) => {
+                                            let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
 
-                                {tasks.map((task,index) => {
-                                    let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
-
-                                    if (task.isComplete === false && isUrgent === true) {
-                                        return <OneTask task={task} index={index} clickOpen={clickOpen} setTasks={setTasks}/>
-                                    } else{
-                                        return <div></div>
+                                            if (task.isComplete === false && isUrgent === true) {
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen} setTasks={setTasks}/>
+                                            } else{
+                                                return <div></div>
+                                            }
+                                        })
                                     }
-                                })}
 
-                                <div className='title col-12'>
-                                    <i className='bx bx-chevron-down arrow'></i>
-                                    <span>1个月后 </span>
-                                </div>
+                                    <div className='title col-12'>
+                                        {isfolded2 ? <i className="bx bx-chevron-right arrow" onClick={onFold(2)}></i> 
+                                            : <i className='bx bx-chevron-down arrow' onClick={onFold(2)}></i>}
+                                        <span>1个月后 </span>
+                                    </div>
 
-                                {tasks.map((task,index) => {
-                                    let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
+                                    {!isfolded2 &&
+                                        tasks.map((task,index) => {
+                                            let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
 
-                                    if (task.isComplete === false && isUrgent === false) {
-                                        return <OneTask task={task} index={index} clickOpen={clickOpen}/>
-                                    } else{
-                                        return <div></div>
+                                            if (task.isComplete === false && isUrgent === false) {
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen}/>
+                                            } else{
+                                                return <div></div>
+                                            }
+                                        })
                                     }
-                                })}
-
-
+                                    </>
+                                }
                             </div>
                         </div>
 
@@ -147,18 +178,21 @@ function Content({user_id}) {
                         <div className='area col-12'>
                             <div class="row">
                                 <div className='title col-12'>
-                                    <i className='bx bx-chevron-down arrow'></i> 
+                                    {isfolded3 ? <i className="bx bx-chevron-right arrow" onClick={onFold(3)}></i> 
+                                        : <i className='bx bx-chevron-down arrow' onClick={onFold(3)}></i>}
                                     <span>已完成 </span>
                                     <span className='number-complete'>{numberOfComplete}</span>
                                 </div>
 
-                                {tasks.map((task,index) => {
-                                    if (task.isComplete === true) {
-                                            return <OneTask task={task} index={index} clickOpen={clickOpen}/>
-                                        } else{
-                                            return <div></div>
-                                        }
-                                    })}
+                                {!isfolded3 &&
+                                    tasks.map((task,index) => {
+                                        if (task.isComplete === true) {
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen}/>
+                                            } else{
+                                                return <div></div>
+                                            }
+                                        })
+                                }
                             </div>
                         </div>
                     </div>
