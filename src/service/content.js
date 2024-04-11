@@ -13,6 +13,12 @@ export async function getCanvasTask(user_id) {
 export async function addTaskJson(task) {
     const url = `https://todo-nodejs-nu.vercel.app/insert-task`;
     let res;
+    
+    if (task.dateTime === undefined) {
+        const currentTime = new Date();
+        task.dateTime = currentTime.getTime() - currentTime.getTimezoneOffset() * 60 * 1000;
+    }
+
     try {
         res = await fetch(url, {
             method: 'POST',
