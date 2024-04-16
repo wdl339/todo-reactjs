@@ -3,7 +3,7 @@ import AddTaskArea from '../component/AddTaskArea';
 import OneTask from '../component/OneTask';
 import TaskDetail from '../component/TaskDetail';
 import '../css/content.scss';
-import { addTaskJson, getCanvasTask, getTasks } from '../service/content';
+import { addTaskJson, deleteTask, getCanvasTask, getTasks } from '../service/content';
 import { formatTime, getToday } from '../util/time';
 // const moment = require('moment');
 
@@ -32,7 +32,7 @@ function Content({user_id}) {
             setTasks(data);
         })
 
-        setDate(getToday()) ;
+        setDate(getToday());
         
     },[user_id, getTaskFinishing, tasks])
 
@@ -96,6 +96,21 @@ function Content({user_id}) {
                 }
             });
         }).then(() => {window.alert('同步成功'); setGetTaskFinishing(!getTaskFinishing)})
+    }
+
+    const deleteAllOutDate = () => {
+        const currentTime = new Date();
+        let deleteTasks = [];
+        tasks.forEach(task => {
+            if (task.isComplete === true && new Date(task.deadLine) < currentTime){
+                console.log(task);
+                deleteTask(task);
+                deleteTasks.push(task);
+            }
+        })
+        deleteTasks.forEach(task => {
+            tasks.splice(tasks.indexOf(task),1);
+        })
     }
 
     //   const Task = new Schema ({
@@ -195,6 +210,8 @@ function Content({user_id}) {
                                 }
                             </div>
                         </div>
+
+                        <button className="btn-canvas" onClick={() => {deleteAllOutDate()}}>清除过期已完成任务</button>
                     </div>
                 </div>
 

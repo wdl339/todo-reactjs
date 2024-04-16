@@ -61,3 +61,20 @@ export async function updateNoteImportant(data) {
     }
     return res;
 }
+
+export async function deleteNote(data){
+    const url = `https://todo-nodejs-nu.vercel.app/delete-note`;
+    let res;
+    try {
+        res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    } catch (error) {
+        console.error(error);
+    }
+    return res;
+}

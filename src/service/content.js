@@ -84,3 +84,20 @@ export async function updateImportant(data) {
     }
     return res;
 }
+
+export async function deleteTask(data) {
+    const url = `https://todo-nodejs-nu.vercel.app/delete-task`;
+    let res;
+    try {
+        res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    } catch (error) {
+        console.error(error);
+    }
+    return res;
+}

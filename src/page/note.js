@@ -4,7 +4,7 @@ import '../css/note.scss';
 import AddNoteArea from '../component/AddNoteArea';
 import NoteDetail from '../component/NoteDetail';
 import OneNote from '../component/OneNote';
-import { addNoteJson, getJwcNote, getNotes } from '../service/note';
+import { addNoteJson, deleteNote, getJwcNote, getNotes } from '../service/note';
 import { formatTimeForNote, getToday } from '../util/time';
 
 function Note({user_id}) {
@@ -74,6 +74,21 @@ function Note({user_id}) {
         
     }
 
+    const deleteToTen = () => {
+        let count = 0;
+        let deleteNotes = [];
+        notes.forEach(note => {
+            if (note.isImportant === false) {
+                count++;
+                if (count > 10) {
+                    deleteNote(note);
+                    deleteNotes.push(note);
+                }
+            }
+        })
+        setNotes(notes.filter(note => !deleteNotes.includes(note)));
+    }
+
     // const Note = new Schema ({
     //     title : {type : String},
     //     detail : {type : String},
@@ -133,6 +148,8 @@ function Note({user_id}) {
                                     })}
                             </div>
                         </div>
+
+                        <button className="btn-jwc" onClick={() => {deleteToTen()}}>删除到仅剩10条未精选</button>
                     </div>
                 </div>
 
