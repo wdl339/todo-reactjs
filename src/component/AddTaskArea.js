@@ -29,6 +29,8 @@ function AddTaskArea({setTasks, user_id}) {
             newTask._id = data.id;
             newTask.deadLine = moment(newTask.deadLine).add(8, 'hours');
             setTasks((prevTasks) => [...prevTasks, newTask]);
+            document.getElementById('text-area').value = '';
+            document.getElementById('ddl-text').value = '';
           } else {
             console.error('任务添加失败');
           }
@@ -42,8 +44,8 @@ function AddTaskArea({setTasks, user_id}) {
         <button type='submit' class='btn btn-add'>添加</button>
 
         <div className='info col-lg-11'>
-            <input type='text' name='name' class='text-area' placeholder='新任务...' />
-            <input type="datetime-local" class='ddl-area' name='deadLine'></input>
+            <input type='text' name='name' class='text-area' placeholder='新任务...' id='text-area' required/>
+            <input type="datetime-local" class='ddl-area' name='deadLine' id='ddl-text'/>
         </div>
 
     </form>

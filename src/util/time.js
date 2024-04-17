@@ -5,7 +5,11 @@ export function formatTime (time){
     var date = ddlUtc.getUTCDate().toString().padStart(2, '0');
     var hour = ddlUtc.getUTCHours().toString().padStart(2, '0');
     var minute = ddlUtc.getUTCMinutes().toString().padStart(2, '0');
-    var ddlValue = year + '-' + month + '-' + date + 'T' + hour + ':' + minute;
+
+    var days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    var dayOfWeek = days[ddlUtc.getUTCDay()];
+
+    var ddlValue = year + '-' + month + '-' + date + ' ' + dayOfWeek + ' ' + hour + ':' + minute;
     return ddlValue
 }
 

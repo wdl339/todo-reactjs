@@ -23,6 +23,7 @@ function AddNoteArea({setNotes, date,user_id}) {
                 const data = await response.json();
                 newNote._id = data.id;
                 setNotes((prevNotes) => [...prevNotes, newNote]);
+                document.getElementById('text-area').value = '';
             } else {
                 console.error('记录添加失败');
             }
@@ -38,7 +39,7 @@ function AddNoteArea({setNotes, date,user_id}) {
         <button type='submit' class='btn btn-add' >添加</button>
 
         <div className='info col-lg-11'>
-            <input type='text' name='title' class='text-area' placeholder='新记录...' />
+            <input type='text' name='title' class='text-area' placeholder='新记录...' id='text-area' required/>
         </div>
 
     </form>
