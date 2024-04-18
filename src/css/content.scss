@@ -36,12 +36,12 @@
         & .btn-canvas {
             margin-top: 10px;
             border-radius: 5px;
-            border: 2px solid black;
+            border: 2px solid #E5E8E8;
             color: black;
             background: 0;
             padding: 5px 5px;
             font-size: 14px;
-            
+            background-color: #0D6EFD;
         }
 
 
@@ -87,10 +87,11 @@
                 border: 2px solid #E5E8E8;
                 color: black;
                 background: 0;
-                padding: 15px 10px;
-                font-size: 15px;
+                padding: 5px 5px;
+                font-size: 14px;
                 position: absolute;
                 right: 10px;
+                background-color: #0D6EFD;
             }
 
 

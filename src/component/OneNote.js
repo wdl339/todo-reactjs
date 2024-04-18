@@ -34,7 +34,7 @@ function OneNote({setNotes, note, index, clickOpen}) {
     <div key={index} className={'note col-12 note' + index}>
                                                         
         <div className='info' onClick={() => {clickOpen(note)}}>
-            <input type='text' className='note-title col-11' value={note.title} readOnly/>
+            <input type='text' className='note-title col-12' value={note.title} readOnly/>
         </div>
 
         <div id={'important'+index}>
