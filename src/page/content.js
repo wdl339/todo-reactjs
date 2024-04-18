@@ -144,7 +144,7 @@ function Content({user_id}) {
                         </div>
                         
                         <button className="btn-canvas" onClick={() => {getCanvas()}}>
-                            {diffHour < 1 ? '同步canvas任务' : `同步canvas任务 ${diffHour}小时未同步`}
+                            {diffHour < 1 ? '同步canvas任务' : `同步canvas任务 （已${diffHour}小时未同步）`}
                         </button>
 
                         <AddTaskArea setTasks={setTasks} user_id={user_id}/>

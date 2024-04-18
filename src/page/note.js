@@ -15,6 +15,8 @@ function Note({user_id}) {
     const [date, setDate] = useState('')
     const [getTaskFinishing, setGetTaskFinishing] = useState(false)
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
+    const [isfolded0, setIsfolded0] = useState(false)
+    const [isfolded1, setIsfolded1] = useState(false)
     let numberOfImportant = 0
 
     useEffect (() => {
@@ -58,7 +60,26 @@ function Note({user_id}) {
             setJob(note)
             setIsOpen(false)
         }
-        
+    }
+
+    const onFold = (index) => {
+        if (index === 0) {
+            return () => {
+                if (isfolded0 === false) {
+                    setIsfolded0(true)
+                } else {
+                    setIsfolded0(false)
+                }
+            }
+        } else {
+            return () => {
+                if (isfolded1 === false) {
+                    setIsfolded1(true)
+                } else {
+                    setIsfolded1(false)
+                }
+            }
+        }
     }
 
     const getJwc = () => {
@@ -115,18 +136,19 @@ function Note({user_id}) {
                         <div className='area col-12'>
                             <div class="row">
                                 <div className='title col-12'>
-                                    <i className='bx bx-chevron-down arrow'></i> 
+                                    {isfolded0 ? <i className="bx bx-chevron-right arrow" onClick={onFold(0)}></i> 
+                                        : <i className='bx bx-chevron-down arrow' onClick={onFold(0)}></i>}
                                     <span>精选 </span>
                                     <span className='number-important'>{numberOfImportant}</span>
                                 </div>
 
-                                {notes.map((note,index) => {
+                                {!isfolded0 ? notes.map((note,index) => {
                                     if (note.isImportant === true) {
                                         return  <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen}/>
                                     } else{
                                         return <div></div>
                                     }
-                                })}
+                                }) : <div></div>}
                             </div>
                         </div>
 
@@ -134,18 +156,19 @@ function Note({user_id}) {
                         <div className='area col-12'>
                             <div class="row">
                                 <div className='title col-12'>
-                                    <i className='bx bx-chevron-down arrow'></i> 
+                                    {isfolded1 ? <i className="bx bx-chevron-right arrow" onClick={onFold(1)}></i> 
+                                        : <i className='bx bx-chevron-down arrow' onClick={onFold(1)}></i>}
                                     <span>未精选 </span>
                                     <span className='number-important'>{notes.length - numberOfImportant}</span>
                                 </div>
 
-                                {notes.map((note,index) => {
+                                {!isfolded1 ? notes.map((note,index) => {
                                     if (note.isImportant === false) {
                                             return <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen}/>
                                         } else{
                                             return <div></div>
                                         }
-                                    })}
+                                    }) : <div></div>}
                             </div>
                         </div>
 
