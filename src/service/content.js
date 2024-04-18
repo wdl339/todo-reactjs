@@ -101,3 +101,15 @@ export async function deleteTask(data) {
     }
     return res;
 }
+
+export async function getCanvasLastUpdateHour(user_id) {
+    const url = `https://todo-nodejs-nu.vercel.app/taskLastUpdated?user_id=${user_id}`;
+    const data = await getJson(url);
+
+
+    const lastUpdated = new Date(data.lastUpdated).getTime();
+    const now = new Date().getTime();
+
+    const differenceInHours = (now - lastUpdated) / (1000 * 60 * 60);
+    return differenceInHours.toFixed(0);
+}

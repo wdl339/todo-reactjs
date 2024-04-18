@@ -3,7 +3,7 @@ import AddTaskArea from '../component/AddTaskArea';
 import OneTask from '../component/OneTask';
 import TaskDetail from '../component/TaskDetail';
 import '../css/content.scss';
-import { addTaskJson, deleteTask, getCanvasTask, getTasks } from '../service/content';
+import { addTaskJson, deleteTask, getCanvasLastUpdateHour, getCanvasTask, getTasks } from '../service/content';
 import { formatTime, getToday } from '../util/time';
 // const moment = require('moment');
 
@@ -15,6 +15,7 @@ function Content({user_id}) {
     const [job,setJob] = useState({})
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
     const [date, setDate] = useState('')
+    const [diffHour, setDiffHour] = useState(0)
     const [isfolded0, setIsFolded0] = useState(false)
     const [isfolded1, setIsFolded1] = useState(false)
     const [isfolded2, setIsFolded2] = useState(false)
@@ -35,6 +36,15 @@ function Content({user_id}) {
         setDate(getToday());
         
     },[user_id, getTaskFinishing, tasks])
+
+    useEffect(() => {
+        if (user_id !== "") {
+            getCanvasLastUpdateHour(user_id)
+                .then(differenceInHours => {
+                    setDiffHour(differenceInHours);
+                });
+        }
+    },[user_id, getTaskFinishing])
 
     tasks.forEach(task => {
         if (task.isComplete === true) {
@@ -133,7 +143,9 @@ function Content({user_id}) {
                             <p>{date} 所有任务</p>
                         </div>
                         
-                        <button className="btn-canvas" onClick={() => {getCanvas()}}>同步canvas任务</button>
+                        <button className="btn-canvas" onClick={() => {getCanvas()}}>
+                            {diffHour < 1 ? '同步canvas任务' : `同步canvas任务 ${diffHour}小时未同步`}
+                        </button>
 
                         <AddTaskArea setTasks={setTasks} user_id={user_id}/>
 
