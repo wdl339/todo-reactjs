@@ -50,7 +50,21 @@
   background-color: black;
 }
 
-.header-title{
+.first-header-title{
   color: white;
   font-size: 18px;
+  white-space: pre-wrap;
+
+  @media (min-width: 990px) {
+    font-size: 20px;
+  }
+}
+
+.header-title{
+  color: white;
+  font-size: 16px;
+
+  @media (min-width: 990px) {
+    font-size: 20px;
+  }
 }
