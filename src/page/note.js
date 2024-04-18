@@ -149,7 +149,7 @@ function Note({user_id}) {
                             </div>
                         </div>
 
-                        <button className="btn-jwc" onClick={() => {deleteToTen()}}>删除到仅剩10条未精选</button>
+                        <button className="btn-jwc" onClick={() => {deleteToTen()}}>仅保留最近10条未精选记录</button>
                     </div>
                 </div>
 

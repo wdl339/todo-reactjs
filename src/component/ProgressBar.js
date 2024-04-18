@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { formatTime } from '../util/time';
+import { formatTimeWithWeekDay } from '../util/time';
 
 const ProgressBar = ({ deadline, dateTime }) => {
     if (deadline){
@@ -19,7 +19,7 @@ const ProgressBar = ({ deadline, dateTime }) => {
         return (
             <div className="progress col-12">
                 <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">
-                    {formatTime(moment(deadline))}
+                    {formatTimeWithWeekDay(moment(deadline))}
                 </div>
             </div>
         );
@@ -28,7 +28,7 @@ const ProgressBar = ({ deadline, dateTime }) => {
                 <div className="progress col-12">
                     <div className="progress-bar" role="progressbar" style={{ width: `${progress}%`}} aria-valuemin="0" aria-valuemax="100">
                     </div>
-                    <p>{formatTime(moment(deadline))}</p>
+                    <p>{formatTimeWithWeekDay(moment(deadline))}</p>
                 </div>
             );
         } else {
