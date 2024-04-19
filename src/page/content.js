@@ -110,12 +110,16 @@ function Content({user_id}) {
 
     const deleteAllOutDate = () => {
         const currentTime = new Date();
+        console.log(currentTime);
         let deleteTasks = [];
         tasks.forEach(task => {
-            if (task.isComplete === true && new Date(task.deadLine) < currentTime){
-                console.log(task);
-                deleteTask(task);
-                deleteTasks.push(task);
+            if (task.isComplete === true) {
+                let ddl = new Date(task.deadLine);
+                ddl.setHours(ddl.getHours() - 8);
+                if (ddl < currentTime) {
+                    deleteTask(task);
+                    deleteTasks.push(task);
+                }
             }
         })
         deleteTasks.forEach(task => {
