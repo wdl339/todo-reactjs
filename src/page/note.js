@@ -19,18 +19,21 @@ function Note({user_id}) {
     const [isfolded1, setIsfolded1] = useState(false)
     let numberOfImportant = 0
 
-    useEffect (() => {
-
+    useEffect(() => {
         getNotes(user_id).then(data => {
-            data.sort((a, b) => {
-                return new Date(b.dateTime) - new Date(a.dateTime);
-              });
-            setNotes(data);
+            if (data) {
+                data.sort((a, b) => {
+                    return new Date(b.dateTime) - new Date(a.dateTime);
+                });
+                setNotes(data);
+            } else {
+                setNotes([]);
+            }
         })
-
+    
         setDate(getToday());
         
-    },[user_id, getTaskFinishing, notes])
+    }, [user_id, getTaskFinishing, notes])
 
     notes.forEach(note => {
         if (note.isImportant === true) {

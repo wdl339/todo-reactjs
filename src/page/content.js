@@ -24,18 +24,21 @@ function Content({user_id}) {
     let oneMonthFromNow = new Date();
     oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
 
-    useEffect (() => {
-
+    useEffect(() => {
         getTasks(user_id).then(data => {
-            data.sort((a, b) => {
-                return new Date(a.deadLine) - new Date(b.deadLine);
-              });
-            setTasks(data);
+            if (data) {
+                data.sort((a, b) => {
+                    return new Date(a.deadLine) - new Date(b.deadLine);
+                });
+                setTasks(data);
+            } else {
+                setTasks([]);
+            }
         })
-
+    
         setDate(getToday());
         
-    },[user_id, getTaskFinishing, tasks])
+    }, [user_id, getTaskFinishing, tasks])
 
     useEffect(() => {
         if (user_id !== "") {

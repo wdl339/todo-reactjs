@@ -23,6 +23,7 @@ function Login({setIsLoggedIn}) {
                 console.log('Token:', token);
                 localStorage.setItem('token', token);
                 setIsLoggedIn(true);
+                window.alert('登录成功');
                 navigate('/task');
             } else {
                 console.log('登录失败');
