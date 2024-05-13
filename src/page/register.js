@@ -26,31 +26,32 @@ function Register() {
     }
 
     const handleRegister = () => {
-        const enteredCode = document.querySelector('.txtcode').value;
-        const userName = document.querySelector('.txtusername').value;
-        const passWord = document.querySelector('.txtpassword').value;
-        const canvasUrl = document.querySelector('.txtcanvasurl').value;
-        const email = document.querySelector('.txtemail').value;
-        if (enteredCode === code && userName && passWord && canvasUrl && email && isSending && isChecked) {
-          fetch('https://todo-nodejs-nu.vercel.app/insert-user', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userName: userName, passWord: passWord, canvasUrl: canvasUrl, email: email }),
-          })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error){
-                    alert(data.error)
-                } else {
-                    console.log("注册成功")
-                    navigate('/');
-                }
-            })
-        } else {
-          console.log("其他问题")
-        }
+        // const enteredCode = document.querySelector('.txtcode').value;
+        // const userName = document.querySelector('.txtusername').value;
+        // const passWord = document.querySelector('.txtpassword').value;
+        // const canvasUrl = document.querySelector('.txtcanvasurl').value;
+        // const email = document.querySelector('.txtemail').value;
+        window.alert('注册通道暂时关闭，请使用测试账号登录\n 用户名：lks，密码：113513');
+        // if (enteredCode === code && userName && passWord && canvasUrl && email && isSending && isChecked) {
+        //   fetch('https://todo-nodejs-nu.vercel.app/insert-user', {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({ userName: userName, passWord: passWord, canvasUrl: canvasUrl, email: email }),
+        //   })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.error){
+        //             alert(data.error)
+        //         } else {
+        //             console.log("注册成功")
+        //             navigate('/');
+        //         }
+        //     })
+        // } else {
+        //   console.log("其他问题")
+        // }
       };
 
     return ( 

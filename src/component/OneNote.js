@@ -1,7 +1,7 @@
 import React from 'react';
 import { updateNoteImportant } from '../service/note';
 
-function OneNote({setNotes, note, index, clickOpen}) {
+function OneNote({setNotes, note, index, clickOpen, changeNoteFreshing}) {
 
   const importantSubmit = async (event) => {
     event.preventDefault();
@@ -21,6 +21,7 @@ function OneNote({setNotes, note, index, clickOpen}) {
                 newNotes[index].isImportant = !note.isImportant;
                 return newNotes;
             });
+            changeNoteFreshing();
         } else {
             console.error('任务更新失败');
         }

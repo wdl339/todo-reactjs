@@ -1,7 +1,7 @@
 import React from 'react';
 import { addNote } from '../service/note';
 
-function AddNoteArea({setNotes, date,user_id}) {
+function AddNoteArea({setNotes, date,user_id, changeNoteFreshing}) {
 
     const addOneNote = async (event) => {
         event.preventDefault();
@@ -23,6 +23,7 @@ function AddNoteArea({setNotes, date,user_id}) {
                 const data = await response.json();
                 newNote._id = data.id;
                 setNotes((prevNotes) => [...prevNotes, newNote]);
+                changeNoteFreshing();
                 document.getElementById('text-area').value = '';
             } else {
                 console.error('记录添加失败');

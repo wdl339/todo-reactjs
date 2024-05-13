@@ -42,7 +42,7 @@ function App() {
         console.log('验证令牌时发生错误:', error);
       }
     }
-  }, [isLoggedIn,userID]);
+  }, [isLoggedIn, userID]);
 
   return (
     <BrowserRouter>

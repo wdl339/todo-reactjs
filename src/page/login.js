@@ -20,7 +20,7 @@ function Login({setIsLoggedIn}) {
 
             if (response.ok) {
                 const { token } = await response.json();
-                console.log('Token:', token);
+                // console.log('Token:', token);
                 localStorage.setItem('token', token);
                 setIsLoggedIn(true);
                 window.alert('登录成功');
@@ -40,7 +40,7 @@ function Login({setIsLoggedIn}) {
           event.preventDefault();
           loginButtonRef.current.click();
         }
-      };
+    };
 
     return ( 
         <div className='col-12 login'>

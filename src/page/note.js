@@ -14,6 +14,7 @@ function Note({user_id}) {
     const [job, setJob] = useState({})
     const [date, setDate] = useState('')
     const [getTaskFinishing, setGetTaskFinishing] = useState(false)
+    const [setNoteFreshing, setSetNoteFreshing] = useState(false)
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
     const [isfolded0, setIsfolded0] = useState(false)
     const [isfolded1, setIsfolded1] = useState(false)
@@ -33,8 +34,9 @@ function Note({user_id}) {
     
         setDate(getToday());
         
-    }, [user_id, getTaskFinishing, notes])
+    }, [user_id, getTaskFinishing, setNoteFreshing])
 
+    
     notes.forEach(note => {
         if (note.isImportant === true) {
             numberOfImportant++
@@ -113,6 +115,10 @@ function Note({user_id}) {
         setNotes(notes.filter(note => !deleteNotes.includes(note)));
     }
 
+    const changeNoteFreshing = () => {
+        setSetNoteFreshing(!setNoteFreshing);
+    }
+
     // const Note = new Schema ({
     //     title : {type : String},
     //     detail : {type : String},
@@ -133,7 +139,7 @@ function Note({user_id}) {
                         
                         <button className="btn-jwc" onClick={() => {getJwc()}}>同步教务处通知</button>
 
-                        <AddNoteArea setNotes={setNotes} date={date} user_id={user_id}/>
+                        <AddNoteArea setNotes={setNotes} date={date} user_id={user_id} changeNoteFreshing={changeNoteFreshing}/>
 
                         {/* important-note-area */}
                         <div className='area col-12'>
@@ -147,7 +153,7 @@ function Note({user_id}) {
 
                                 {!isfolded0 ? notes.map((note,index) => {
                                     if (note.isImportant === true) {
-                                        return  <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen}/>
+                                        return  <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen} changeNoteFreshing={changeNoteFreshing}/>
                                     } else{
                                         return <div></div>
                                     }
@@ -167,7 +173,7 @@ function Note({user_id}) {
 
                                 {!isfolded1 ? notes.map((note,index) => {
                                     if (note.isImportant === false) {
-                                            return <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen}/>
+                                            return <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen} changeNoteFreshing={changeNoteFreshing}/>
                                         } else{
                                             return <div></div>
                                         }

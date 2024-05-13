@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import { addTask } from '../service/content';
 
-function AddTaskArea({setTasks, user_id}) {
+function AddTaskArea({changeTaskFreshing, user_id, setTasks}) {
 
     const addOneTask = async (event) => {
         event.preventDefault();
@@ -29,6 +29,7 @@ function AddTaskArea({setTasks, user_id}) {
             newTask._id = data.id;
             newTask.deadLine = moment(newTask.deadLine).add(8, 'hours');
             setTasks((prevTasks) => [...prevTasks, newTask]);
+            changeTaskFreshing();
             document.getElementById('text-area').value = '';
             document.getElementById('ddl-text').value = '';
           } else {

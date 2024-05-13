@@ -3,7 +3,7 @@ import '../css/content.scss';
 import { updateComplete, updateImportant } from '../service/content';
 import ProgressBar from './ProgressBar';
 
-function OneTask({task, index, clickOpen,setTasks}){
+function OneTask({task, index, clickOpen,changeTaskFreshing , setTasks}) {
 
     const completeSubmit = async (event,index) => {
         event.preventDefault();
@@ -23,6 +23,7 @@ function OneTask({task, index, clickOpen,setTasks}){
                     newTasks[index].isComplete = !task.isComplete;
                     return newTasks;
                 });
+                changeTaskFreshing();
             } else {
                 console.error('任务更新失败');
             }
@@ -50,6 +51,7 @@ function OneTask({task, index, clickOpen,setTasks}){
                     newTasks[index].isImportant = !task.isImportant;
                     return newTasks;
                 });
+                changeTaskFreshing();
             } else {
                 console.error('任务更新失败');
             }

@@ -11,6 +11,7 @@ function Content({user_id}) {
 
     const [isOpen, setIsOpen] = useState(false)
     const [getTaskFinishing, setGetTaskFinishing] = useState(false)
+    const [setTaskFreshing, setSetTaskFreshing] = useState(false)
     const [tasks, setTasks] = useState([])
     const [job,setJob] = useState({})
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
@@ -20,6 +21,7 @@ function Content({user_id}) {
     const [isfolded1, setIsFolded1] = useState(false)
     const [isfolded2, setIsFolded2] = useState(false)
     const [isfolded3, setIsFolded3] = useState(false)
+    const [canvasDisabled, setCanvasDisabled] = useState(false)
     let numberOfComplete = 0
     let oneMonthFromNow = new Date();
     oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
@@ -37,8 +39,9 @@ function Content({user_id}) {
         })
     
         setDate(getToday());
+        console.log('getTasks')
         
-    }, [user_id, getTaskFinishing, tasks])
+    }, [user_id, getTaskFinishing, setTaskFreshing])
 
     useEffect(() => {
         if (user_id !== "") {
@@ -54,6 +57,10 @@ function Content({user_id}) {
             numberOfComplete++
         }
     })
+
+    const changeTaskFreshing = () => {
+        setSetTaskFreshing(!setTaskFreshing);
+    }
 
     const clickOpen = (task) =>{
         const formDetail = document.querySelector('.form-detail-task')
@@ -100,6 +107,7 @@ function Content({user_id}) {
     }
 
     const getCanvas = () => {
+        setCanvasDisabled(true);
         getCanvasTask(user_id).then(data => {
             data.forEach(task => {
                 const isUnique = tasks.every(existingTask => existingTask.name !== task.name);
@@ -108,7 +116,11 @@ function Content({user_id}) {
                     addTaskJson(task);
                 }
             });
-        }).then(() => {window.alert('同步成功'); setGetTaskFinishing(!getTaskFinishing)})
+        }).then(() => {
+            setCanvasDisabled(false);
+            window.alert('同步成功'); 
+            setGetTaskFinishing(!getTaskFinishing);
+        })
     }
 
     const deleteAllOutDate = () => {
@@ -150,11 +162,11 @@ function Content({user_id}) {
                             <p>{date} 所有任务</p>
                         </div>
                         
-                        <button className="btn-canvas" onClick={() => {getCanvas()}}>
+                        <button className="btn-canvas" onClick={() => {if (!canvasDisabled) getCanvas()}} disabled={canvasDisabled}>
                             {diffHour < 1 ? '同步canvas任务' : `同步canvas任务 （已${diffHour}小时未同步）`}
                         </button>
 
-                        <AddTaskArea setTasks={setTasks} user_id={user_id}/>
+                        <AddTaskArea user_id={user_id} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
 
                         {/* no-complete-task-area */}
                         <div className='area col-s-12'>
@@ -179,7 +191,7 @@ function Content({user_id}) {
                                             let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
 
                                             if (task.isComplete === false && isUrgent === true) {
-                                                return <OneTask task={task} index={index} clickOpen={clickOpen} setTasks={setTasks}/>
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
                                             } else{
                                                 return <div></div>
                                             }
@@ -197,7 +209,7 @@ function Content({user_id}) {
                                             let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
 
                                             if (task.isComplete === false && isUrgent === false) {
-                                                return <OneTask task={task} index={index} clickOpen={clickOpen}/>
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
                                             } else{
                                                 return <div></div>
                                             }
@@ -221,7 +233,7 @@ function Content({user_id}) {
                                 {!isfolded3 &&
                                     tasks.map((task,index) => {
                                         if (task.isComplete === true) {
-                                                return <OneTask task={task} index={index} clickOpen={clickOpen}/>
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
                                             } else{
                                                 return <div></div>
                                             }
