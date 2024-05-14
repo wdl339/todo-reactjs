@@ -11,7 +11,6 @@ function Content({user_id}) {
 
     const [isOpen, setIsOpen] = useState(false)
     const [getTaskFinishing, setGetTaskFinishing] = useState(false)
-    const [setTaskFreshing, setSetTaskFreshing] = useState(false)
     const [tasks, setTasks] = useState([])
     const [job,setJob] = useState({})
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
@@ -32,7 +31,10 @@ function Content({user_id}) {
                 data.sort((a, b) => {
                     return new Date(a.deadLine) - new Date(b.deadLine);
                 });
-                setTasks(data);
+                if (JSON.stringify(data) !== JSON.stringify(tasks)) {
+                    setTasks(data);
+                }
+                // setTasks(data);
             } else {
                 setTasks([]);
             }
@@ -41,7 +43,7 @@ function Content({user_id}) {
         setDate(getToday());
         console.log('getTasks')
         
-    }, [user_id, getTaskFinishing, setTaskFreshing])
+    }, [user_id, getTaskFinishing, tasks])
 
     useEffect(() => {
         if (user_id !== "") {
@@ -57,10 +59,6 @@ function Content({user_id}) {
             numberOfComplete++
         }
     })
-
-    const changeTaskFreshing = () => {
-        setSetTaskFreshing(!setTaskFreshing);
-    }
 
     const clickOpen = (task) =>{
         const formDetail = document.querySelector('.form-detail-task')
@@ -166,7 +164,7 @@ function Content({user_id}) {
                             {diffHour < 1 ? '同步canvas任务' : `同步canvas任务 （已${diffHour}小时未同步）`}
                         </button>
 
-                        <AddTaskArea user_id={user_id} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
+                        <AddTaskArea user_id={user_id}  setTasks={setTasks}/>
 
                         {/* no-complete-task-area */}
                         <div className='area col-s-12'>
@@ -189,9 +187,9 @@ function Content({user_id}) {
                                     {!isfolded1 &&
                                         tasks.map((task,index) => {
                                             let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
-
+                                
                                             if (task.isComplete === false && isUrgent === true) {
-                                                return <OneTask task={task} index={index} clickOpen={clickOpen} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen}  setTasks={setTasks}/>
                                             } else{
                                                 return <div></div>
                                             }
@@ -209,7 +207,7 @@ function Content({user_id}) {
                                             let isUrgent = new Date(task.deadLine) < oneMonthFromNow;
 
                                             if (task.isComplete === false && isUrgent === false) {
-                                                return <OneTask task={task} index={index} clickOpen={clickOpen} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen}  setTasks={setTasks}/>
                                             } else{
                                                 return <div></div>
                                             }
@@ -233,7 +231,7 @@ function Content({user_id}) {
                                 {!isfolded3 &&
                                     tasks.map((task,index) => {
                                         if (task.isComplete === true) {
-                                                return <OneTask task={task} index={index} clickOpen={clickOpen} changeTaskFreshing={changeTaskFreshing} setTasks={setTasks}/>
+                                                return <OneTask task={task} index={index} clickOpen={clickOpen}  setTasks={setTasks}/>
                                             } else{
                                                 return <div></div>
                                             }

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/register.scss';
+import { BACKENDURL } from '../service/common';
 
 function Register() {
     const navigate = useNavigate()
@@ -15,7 +16,8 @@ function Register() {
             const generatedCode = String(Math.floor(Math.random() * 1000000)).padEnd(6, '0')
             setCode(generatedCode)
             setIsSending(true)
-            fetch('https://todo-nodejs-nu.vercel.app/api/email', {
+            const url = `${BACKENDURL}/api/email`
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

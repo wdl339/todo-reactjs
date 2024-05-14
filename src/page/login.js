@@ -2,6 +2,7 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/login.scss';
+import { BACKENDURL } from '../service/common';
 
 function Login({setIsLoggedIn}) {
     const navigate = useNavigate()
@@ -10,7 +11,8 @@ function Login({setIsLoggedIn}) {
         const userName = document.querySelector('.txtusername').value
         const passWord = document.querySelector('.txtpassword').value
     
-        const response = await fetch('https://todo-nodejs-nu.vercel.app/api/login', {
+        const url = `${BACKENDURL}/api/login`;
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ import AddNoteArea from '../component/AddNoteArea';
 import NoteDetail from '../component/NoteDetail';
 import OneNote from '../component/OneNote';
 import { addNoteJson, deleteNote, getJwcNote, getNotes } from '../service/note';
-import { formatTimeForNote, getToday } from '../util/time';
+import { formatTimeForNote, getToday, getTodayForNote } from '../util/time';
 
 function Note({user_id}) {
 
@@ -13,8 +13,8 @@ function Note({user_id}) {
     const [notes, setNotes] = useState([])
     const [job, setJob] = useState({})
     const [date, setDate] = useState('')
+    const [formatDate, setFormatDate] = useState('')
     const [getTaskFinishing, setGetTaskFinishing] = useState(false)
-    const [setNoteFreshing, setSetNoteFreshing] = useState(false)
     const [savedScrollPosition, setSavedScrollPosition] = useState(0)
     const [isfolded0, setIsfolded0] = useState(false)
     const [isfolded1, setIsfolded1] = useState(false)
@@ -26,15 +26,21 @@ function Note({user_id}) {
                 data.sort((a, b) => {
                     return new Date(b.dateTime) - new Date(a.dateTime);
                 });
-                setNotes(data);
+                if (JSON.stringify(data) !== JSON.stringify(notes)) {
+                    setNotes(data);
+                }
+                // setNotes(data);
             } else {
                 setNotes([]);
             }
         })
     
         setDate(getToday());
+        setFormatDate(getTodayForNote());
+
+        console.log('getNotes')
         
-    }, [user_id, getTaskFinishing, setNoteFreshing])
+    }, [user_id, getTaskFinishing])
 
     
     notes.forEach(note => {
@@ -115,10 +121,6 @@ function Note({user_id}) {
         setNotes(notes.filter(note => !deleteNotes.includes(note)));
     }
 
-    const changeNoteFreshing = () => {
-        setSetNoteFreshing(!setNoteFreshing);
-    }
-
     // const Note = new Schema ({
     //     title : {type : String},
     //     detail : {type : String},
@@ -139,7 +141,7 @@ function Note({user_id}) {
                         
                         <button className="btn-jwc" onClick={() => {getJwc()}}>同步教务处通知</button>
 
-                        <AddNoteArea setNotes={setNotes} date={date} user_id={user_id} changeNoteFreshing={changeNoteFreshing}/>
+                        <AddNoteArea setNotes={setNotes} date={formatDate} user_id={user_id} />
 
                         {/* important-note-area */}
                         <div className='area col-12'>
@@ -153,7 +155,7 @@ function Note({user_id}) {
 
                                 {!isfolded0 ? notes.map((note,index) => {
                                     if (note.isImportant === true) {
-                                        return  <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen} changeNoteFreshing={changeNoteFreshing}/>
+                                        return  <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen} />
                                     } else{
                                         return <div></div>
                                     }
@@ -173,7 +175,7 @@ function Note({user_id}) {
 
                                 {!isfolded1 ? notes.map((note,index) => {
                                     if (note.isImportant === false) {
-                                            return <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen} changeNoteFreshing={changeNoteFreshing}/>
+                                            return <OneNote setNotes={setNotes} note={note} index={index} clickOpen={clickOpen} />
                                         } else{
                                             return <div></div>
                                         }

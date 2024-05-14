@@ -1,17 +1,17 @@
-import { getJson } from "./common";
+import { BACKENDURL, getJson } from "./common";
 
 export async function getNotes(user_id) {
-    const url = `https://todo-nodejs-nu.vercel.app/api/notes?user_id=${user_id}`;
+    const url = BACKENDURL + `/api/notes?user_id=${user_id}`;
     return getJson(url);
 }
 
 export async function getJwcNote() {
-    const url = `https://todo-nodejs-nu.vercel.app/api/news`;
+    const url = BACKENDURL + "/api/news";
     return getJson(url);
 }
 
 export async function addNoteJson(note) {
-    const url = `https://todo-nodejs-nu.vercel.app/insert-note`;
+    const url = BACKENDURL + "/insert-note";
     let res;
     try {
         res = await fetch(url, {
@@ -29,7 +29,7 @@ export async function addNoteJson(note) {
 }
 
 export async function addNote(note) {
-    const url = `https://todo-nodejs-nu.vercel.app/insert-note`;
+    const url = BACKENDURL + "/insert-note";
     let res;
     try {
         res = await fetch(url, {
@@ -46,7 +46,7 @@ export async function addNote(note) {
 }
 
 export async function updateNoteImportant(data) {
-    const url = `https://todo-nodejs-nu.vercel.app/update-important-note`;
+    const url = BACKENDURL + "/update-important-note";
     let res;
     try {
         res = await fetch(url, {
@@ -63,7 +63,7 @@ export async function updateNoteImportant(data) {
 }
 
 export async function deleteNote(data){
-    const url = `https://todo-nodejs-nu.vercel.app/delete-note`;
+    const url = BACKENDURL + "/delete-note";
     let res;
     try {
         res = await fetch(url, {

@@ -1,7 +1,15 @@
+import React from 'react';
+import '../css/note.scss';
+import { BACKENDURL } from '../service/common';
+
 
 function NoteDetail({job, clickOpen}) {
+    const updateUrl = `${BACKENDURL}/update-note`;
+    const detailUrl = `${BACKENDURL}/update-detail`;
+    const deleteUrl = `${BACKENDURL}/delete-note`;
+
   return (
-    <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-note' className='form-detail-note col-12'>
+    <form method='POST' action={updateUrl} className='form-detail-note col-12'>
                         
         {/* title */}
         <textarea className='note-title-detail col-10' name='title' />
@@ -20,14 +28,14 @@ function NoteDetail({job, clickOpen}) {
             <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
 
             {job.link && (
-                <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-detail'>
+                <form method='POST' action={detailUrl}>
                     <input type='hidden' value={job._id} name='_id'/>
                     <input type='hidden' value={job.link} name='link'/>
                     <button type="submit" className="btn btn-primary" value={job._id}>更新</button>
                 </form>
             )}
 
-            <form method='POST' action='https://todo-nodejs-nu.vercel.app/delete-note'>
+            <form method='POST' action={deleteUrl}>
                 <input type='hidden' value={job._id} name='_id'/>
                 <button type="submit" class="btn btn-danger" value={job._id}>删除</button>
             </form>

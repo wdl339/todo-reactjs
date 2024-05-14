@@ -5,6 +5,7 @@ import Content from './page/content';
 import Login from './page/login';
 import Note from './page/note';
 import Register from './page/register';
+import { BACKENDURL } from './service/common';
 
 function App() {
   const [userID,set_user_id] = useState("");
@@ -13,7 +14,7 @@ function App() {
   useEffect(() => {
 
     const fetchData = async (token) => {
-      const response = await fetch('https://todo-nodejs-nu.vercel.app/api/protected', {
+      const response = await fetch(`${BACKENDURL}/api/protected`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

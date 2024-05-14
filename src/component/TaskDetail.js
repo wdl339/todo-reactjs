@@ -1,7 +1,13 @@
+import React from 'react';
+import '../css/content.scss';
+import { BACKENDURL } from '../service/common';
 
 function TaskDetail({job, clickOpen}) {
+  const updateUrl = `${BACKENDURL}/update-task`;
+  const deleteUrl = `${BACKENDURL}/delete-task`;
+
   return (
-    <form method='POST' action='https://todo-nodejs-nu.vercel.app/update-task' className='form-detail-task col-12'>
+    <form method='POST' action={updateUrl} className='form-detail-task col-12'>
                         
         {/* name */}
         <textarea className='task-name-detail col-10' name='name' />
@@ -19,7 +25,7 @@ function TaskDetail({job, clickOpen}) {
             <input type='hidden' value={job._id} name='_id'/>
             <button type="submit" class="btn btn-primary" value={job._id}>保存</button>
 
-            <form method='POST' action='https://todo-nodejs-nu.vercel.app/delete-task'>    
+            <form method='POST' action={deleteUrl}>    
                 <input type='hidden' value={job._id} name='_id'/>
                 <button type="submit" class="btn btn-danger" value={job._id}>删除</button>
             </form>

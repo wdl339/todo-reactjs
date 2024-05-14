@@ -3,11 +3,10 @@ import '../css/content.scss';
 import { updateComplete, updateImportant } from '../service/content';
 import ProgressBar from './ProgressBar';
 
-function OneTask({task, index, clickOpen,changeTaskFreshing , setTasks}) {
+function OneTask({task, index, clickOpen, setTasks}) {
 
     const completeSubmit = async (event,index) => {
         event.preventDefault();
-        console.log('completeSubmit');
 
         const data = {
             _id: task._id,
@@ -16,14 +15,15 @@ function OneTask({task, index, clickOpen,changeTaskFreshing , setTasks}) {
 
         try {
             const response = await updateComplete(data);
+            console.log(response);
 
             if (response.ok) {
+                console.log('completeSubmit');
                 setTasks((prevTasks) => {
                     const newTasks = [...prevTasks];
                     newTasks[index].isComplete = !task.isComplete;
                     return newTasks;
                 });
-                changeTaskFreshing();
             } else {
                 console.error('任务更新失败');
             }
@@ -35,7 +35,6 @@ function OneTask({task, index, clickOpen,changeTaskFreshing , setTasks}) {
 
     const importantSubmit = async (event,index) => {
         event.preventDefault();
-        console.log('importantSubmit');
 
         const data = {
             _id: task._id,
@@ -46,12 +45,12 @@ function OneTask({task, index, clickOpen,changeTaskFreshing , setTasks}) {
             const response = await updateImportant(data);
 
             if (response.ok) {
+                console.log('importantSubmit');
                 setTasks((prevTasks) => {
                     const newTasks = [...prevTasks];
                     newTasks[index].isImportant = !task.isImportant;
                     return newTasks;
                 });
-                changeTaskFreshing();
             } else {
                 console.error('任务更新失败');
             }

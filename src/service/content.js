@@ -1,17 +1,17 @@
-import { getJson } from "./common";
+import { BACKENDURL, getJson } from "./common";
 
 export async function getTasks(user_id) {
-    const url = `https://todo-nodejs-nu.vercel.app/api/tasks?user_id=${user_id}`;
+    const url = BACKENDURL + `/api/tasks?user_id=${user_id}`;
     return getJson(url);
 }
 
 export async function getCanvasTask(user_id) {
-    const url = `https://todo-nodejs-nu.vercel.app/api/eventlist?user_id=${user_id}`;
+    const url = BACKENDURL + `/api/eventlist?user_id=${user_id}`;
     return getJson(url);
 }
 
 export async function addTaskJson(task) {
-    const url = `https://todo-nodejs-nu.vercel.app/insert-task`;
+    const url = BACKENDURL + "/insert-task";
     let res;
     
     if (task.dateTime === undefined) {
@@ -35,7 +35,7 @@ export async function addTaskJson(task) {
 }
 
 export async function addTask(task) {
-    const url = `https://todo-nodejs-nu.vercel.app/insert-task`;
+    const url = BACKENDURL + "/insert-task";
     let res;
     try {
         res = await fetch(url, {
@@ -52,7 +52,7 @@ export async function addTask(task) {
 }
 
 export async function updateComplete(data) {
-    const url = `https://todo-nodejs-nu.vercel.app/update-complete`;
+    const url = BACKENDURL + "/update-complete";
     let res;
     try {
         res = await fetch(url, {
@@ -69,7 +69,7 @@ export async function updateComplete(data) {
 }
 
 export async function updateImportant(data) {
-    const url = `https://todo-nodejs-nu.vercel.app/update-important`;
+    const url = BACKENDURL + "/update-important";
     let res;
     try {
         res = await fetch(url, {
@@ -86,7 +86,7 @@ export async function updateImportant(data) {
 }
 
 export async function deleteTask(data) {
-    const url = `https://todo-nodejs-nu.vercel.app/delete-task`;
+    const url = BACKENDURL + "/delete-task";
     let res;
     try {
         res = await fetch(url, {
@@ -103,9 +103,8 @@ export async function deleteTask(data) {
 }
 
 export async function getCanvasLastUpdateHour(user_id) {
-    const url = `https://todo-nodejs-nu.vercel.app/taskLastUpdated?user_id=${user_id}`;
+    const url = BACKENDURL + `/taskLastUpdated?user_id=${user_id}`;
     const data = await getJson(url);
-
 
     const lastUpdated = new Date(data.lastUpdated).getTime();
     const now = new Date().getTime();

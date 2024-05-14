@@ -8,3 +8,5 @@ export async function getJson(url) {
     }
     return res;
 }
+
+export const BACKENDURL = 'https://todo-nodejs-nu.vercel.app';
